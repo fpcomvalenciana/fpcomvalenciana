@@ -111,8 +111,19 @@ export function applyUILang() {
   const lblComarca = document.getElementById('lbl-comarca');
   if (lblComarca) lblComarca.textContent = l.lblComarca ?? 'Comarca';
 
+  // Bloc SEO
+  const seoH2 = document.getElementById('seo-h2');
+  const seoP1 = document.getElementById('seo-p1');
+  const seoP2 = document.getElementById('seo-p2');
+  if (seoH2) seoH2.textContent = l.seoH2 ?? '';
+  if (seoP1) seoP1.textContent = l.seoP1 ?? '';
+  if (seoP2) seoP2.textContent = l.seoP2 ?? '';
+
   // Repoblar selects con traducción actualizada
   // Importamos dinámicamente para evitar circular
-  import('../ui/filters.js').then(({ poblarComarcas }) => poblarComarcas());
+  import('../ui/filters.js').then(({ poblarComarcas, poblarProvincies }) => {
+    poblarProvincies();
+    poblarComarcas();
+  });
   requestCascade();
 }

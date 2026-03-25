@@ -4,7 +4,7 @@ import { initMap, renderMap } from './render-map.js';
 import { t, tFam, tCicle, currentLang } from './language.js';
 import { centrosInfo }    from '../data/centres.js';
 import { familiaEmoji, datosEnriquecidos } from '../data/cycles.js';
-import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio } from './filters.js';
+import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio, fProvincia } from './filters.js';
 import { comarcaMunicipis } from '../data/comarques.js';
 
 const safe = (txt) => txt ?? '';
@@ -13,10 +13,12 @@ export let currentTab = 'familias';
 
 // ── Punto de entrada central ──────────────────────────────────
 export function updateView() {
-  const comarcaVal = fComarca()?.value ?? '';
-  actualizarTitulo(comarcaVal);
-  actualizarEstadoVacio(comarcaVal);
-  if (!comarcaVal) return; // web en blanco sin comarca
+  const comarcaVal  = fComarca()?.value  ?? '';
+  const provinciaVal = fProvincia()?.value ?? '';
+  const hayFiltro = comarcaVal || provinciaVal;
+  actualizarTitulo(comarcaVal, provinciaVal);
+  actualizarEstadoVacio(hayFiltro);
+  if (!hayFiltro) return; // web en blanco sin comarca
 
   const data = getFiltered();
   renderStats(data, comarcaVal);
@@ -25,34 +27,43 @@ export function updateView() {
 }
 
 // ── Título dinámico ───────────────────────────────────────────
-function actualizarTitulo(comarca) {
+function actualizarTitulo(comarca, provincia) {
   const h1 = document.querySelector('h1');
   const sub = document.querySelector('.header-sub');
-  const tag = document.querySelector('.header-tag');
   if (!h1) return;
 
-  if (!comarca) {
-    h1.innerHTML  = currentLang === 'val'
-      ? "FP a <span>la Comunitat Valenciana</span>"
-      : "FP en <span>la Comunitat Valenciana</span>";
-    if (sub) sub.textContent = currentLang === 'val'
-      ? "Tota l'oferta de Formació Professional de la Comunitat en un sol lloc"
-      : "Toda la oferta de Formación Profesional de la Comunitat en un solo lugar";
-  } else {
+  if (comarca) {
     const nomComarca = currentLang === 'val'
       ? comarcaMunicipis[comarca]?.val ?? comarca
       : comarcaMunicipis[comarca]?.es ?? comarca;
-    h1.innerHTML  = currentLang === 'val'
+    h1.innerHTML = currentLang === 'val'
       ? `FP a <span>${nomComarca}</span>`
       : `FP en <span>${nomComarca}</span>`;
     if (sub) sub.textContent = currentLang === 'val'
       ? "Tota l'oferta de Formació Professional de la comarca en un sol lloc"
       : "Toda la oferta de Formación Profesional de la comarca en un solo lugar";
+  } else if (provincia) {
+    const nomProv = currentLang === 'val'
+      ? (provincia === 'Alicante' ? 'Alacant' : provincia === 'Castellon' ? 'Castelló' : 'València')
+      : (provincia === 'Alicante' ? 'Alicante' : provincia === 'Castellon' ? 'Castellón' : 'Valencia');
+    h1.innerHTML = currentLang === 'val'
+      ? `FP a <span>${nomProv}</span>`
+      : `FP en <span>${nomProv}</span>`;
+    if (sub) sub.textContent = currentLang === 'val'
+      ? "Tota l'oferta de Formació Professional de la província en un sol lloc"
+      : "Toda la oferta de Formación Profesional de la provincia en un solo lugar";
+  } else {
+    h1.innerHTML = currentLang === 'val'
+      ? "FP a <span>la Comunitat Valenciana</span>"
+      : "FP en <span>la Comunitat Valenciana</span>";
+    if (sub) sub.textContent = currentLang === 'val'
+      ? "Tota l'oferta de Formació Professional de la Comunitat en un sol lloc"
+      : "Toda la oferta de Formación Profesional de la Comunitat en un solo lugar";
   }
 }
 
-// ── Estado vacío (sin comarca) ────────────────────────────────
-function actualizarEstadoVacio(comarca) {
+// ── Estado vacío (sin comarca ni provincia) ───────────────────
+function actualizarEstadoVacio(hayFiltro) {
   const emptyEl   = document.getElementById('comarca-empty-state');
   const tabsEl    = document.querySelector('.tabs');
   const statsEl   = document.getElementById('stats-panel');
@@ -60,7 +71,7 @@ function actualizarEstadoVacio(comarca) {
   const cardsEl   = document.getElementById('cards-container');
   const mapEl     = document.getElementById('map-container');
 
-  if (!comarca) {
+  if (!hayFiltro) {
     if (emptyEl)  emptyEl.style.display  = '';
     if (tabsEl)   tabsEl.style.display   = 'none';
     if (statsEl)  statsEl.style.display  = 'none';

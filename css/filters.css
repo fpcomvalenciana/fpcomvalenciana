@@ -1,7 +1,10 @@
 /* ── FILTERS ─────────────────────────── */
 .filters-section { background:var(--card-bg); border-radius:20px; padding:1.4rem; margin-bottom:1.2rem; border:1px solid var(--border); box-shadow:0 2px 18px rgba(0,0,0,.06); }
 .filters-title { font-family:'Unbounded',sans-serif; font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:.9rem; }
-.filters-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.8rem; }
+.filters-grid { display:grid; gap:.8rem; }
+.filters-row-1,
+.filters-row-2 { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; }
+.filters-row-2 { margin-top:.6rem; }
 .filter-group label { display:block; font-size:.72rem; font-weight:500; color:var(--muted); margin-bottom:.35rem; text-transform:uppercase; letter-spacing:.07em; }
 .filter-group select {
   width:100%; padding:.6rem .9rem; border:2px solid var(--border); border-radius:10px;
@@ -60,4 +63,20 @@
   text-transform: uppercase;
   letter-spacing: .05em;
   color: var(--muted);
+}
+
+/* ── PROVINCIA FILTER ──────────────────────────────────────── */
+.filter-group--provincia select {
+  border: 2px solid var(--border);
+  font-weight: 500;
+}
+.filter-group--comarca select {
+  border: 2px solid var(--accent-yellow);
+  font-weight: 600;
+}
+
+/* Responsive: 1 columna en móvil */
+@media (max-width: 640px) {
+  .filters-row-1,
+  .filters-row-2 { grid-template-columns: 1fr; }
 }

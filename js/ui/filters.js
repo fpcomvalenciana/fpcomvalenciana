@@ -1,13 +1,13 @@
 import { datosEnriquecidos } from '../data/cycles.js';
-import { comarcaMunicipis, comarques } from '../data/comarques.js';
+import { comarcaMunicipis, comarques, provincies } from '../data/comarques.js';
 import { t, tFam, tCicle, currentLang } from './language.js';
 
-// Evitar dependencia circular con render-cards.js
 function requestUpdate() { document.dispatchEvent(new CustomEvent('fp:update')); }
 
 const safe = (txt) => txt ?? '';
 
 // Selectores DOM
+export const fProvincia = () => document.getElementById('f-provincia');
 export const fComarca   = () => document.getElementById('f-comarca');
 export const fMunicipio = () => document.getElementById('f-municipio');
 export const fNivel     = () => document.getElementById('f-nivel');
@@ -16,83 +16,112 @@ export const fCiclo     = () => document.getElementById('f-ciclo');
 export const fCentro    = () => document.getElementById('f-centro');
 export const fTipologia = () => document.getElementById('f-tipologia');
 
-// Lista base de familias (ordenada, sin duplicados)
 export const familias = [...new Set(datosEnriquecidos.map(d => d.familia))].sort();
 
 // ── Filtrado ──────────────────────────────────────────────────
 export function getFiltered() {
-  const com = safe(fComarca()?.value);
-  const mun = safe(fMunicipio()?.value);
-  const niv = safe(fNivel()?.value);
-  const fam = safe(fFamilia()?.value);
-  const cic = safe(fCiclo()?.value);
-  const cen = safe(fCentro()?.value);
-  const tip = safe(fTipologia()?.value);
+  const prov = safe(fProvincia()?.value);
+  const com  = safe(fComarca()?.value);
+  const mun  = safe(fMunicipio()?.value);
+  const niv  = safe(fNivel()?.value);
+  const fam  = safe(fFamilia()?.value);
+  const cic  = safe(fCiclo()?.value);
+  const cen  = safe(fCentro()?.value);
+  const tip  = safe(fTipologia()?.value);
 
-  // Si no hay comarca: devolvemos vacío (web en blanco)
-  if (!com) return [];
+  // Sin provincia ni comarca: vacío
+  if (!prov && !com) return [];
 
   return datosEnriquecidos.filter(d => {
-    if (d.comarca    !== com)  return false;
-    if (mun && d.municipio !== mun) return false;
-    if (niv && d.nivel     !== niv) return false;
-    if (fam && d.familia   !== fam) return false;
-    if (cic && d.ciclo     !== cic) return false;
-    if (cen && d.centro    !== cen) return false;
+    if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
+    if (com  && d.comarca   !== com)  return false;
+    if (mun  && d.municipio !== mun)  return false;
+    if (niv  && d.nivel     !== niv)  return false;
+    if (fam  && d.familia   !== fam)  return false;
+    if (cic  && d.ciclo     !== cic)  return false;
+    if (cen  && d.centro    !== cen)  return false;
     if (tip === 'publico'  && d.privado)  return false;
     if (tip === 'privado'  && !d.privado) return false;
     return true;
   });
 }
 
-// ── Poblar select de comarcas ────────────────────────────────
-export function poblarComarcas() {
-  const sel = fComarca();
+// ── Poblar provincia ──────────────────────────────────────────
+export function poblarProvincies() {
+  const sel = fProvincia();
   if (!sel) return;
-  const placeholder = currentLang === 'val'
-    ? 'Selecciona una comarca…'
-    : 'Selecciona una comarca…';
+  const placeholder = currentLang === 'val' ? 'Totes les províncies' : 'Todas las provincias';
   sel.innerHTML = `<option value="">${placeholder}</option>` +
-    comarques.map(c => {
-      const nom = currentLang === 'val'
-        ? comarcaMunicipis[c].val
-        : comarcaMunicipis[c].es;
+    Object.entries(provincies).map(([key, nom]) =>
+      `<option value="${key}">${currentLang === 'val' ? nom.val : nom.es}</option>`
+    ).join('');
+}
+
+// ── Poblar comarcas (filtradas por provincia) ─────────────────
+export function poblarComarcas() {
+  const sel  = fComarca();
+  if (!sel) return;
+  const prov = safe(fProvincia()?.value);
+  const placeholder = currentLang === 'val' ? 'Selecciona una comarca…' : 'Selecciona una comarca…';
+
+  const comarquesFiltrades = comarques.filter(c =>
+    !prov || comarcaMunicipis[c]?.provincia === prov
+  );
+
+  sel.innerHTML = `<option value="">${placeholder}</option>` +
+    comarquesFiltrades.map(c => {
+      const nom = currentLang === 'val' ? comarcaMunicipis[c].val : comarcaMunicipis[c].es;
       return `<option value="${c}">${nom}</option>`;
     }).join('');
 }
 
-// ── Filtros en cascada ────────────────────────────────────────
+// ── Cascada ───────────────────────────────────────────────────
 let _actualizando = false;
 export function actualizarFiltrosCascada() {
   if (_actualizando) return;
   _actualizando = true;
 
-  const com = safe(fComarca()?.value);
-  const niv = safe(fNivel()?.value);
-  const fam = safe(fFamilia()?.value);
+  const prov = safe(fProvincia()?.value);
+  const com  = safe(fComarca()?.value);
+  const niv  = safe(fNivel()?.value);
+  const fam  = safe(fFamilia()?.value);
 
-  // Poblar municipios según comarca
+  // Repoblar comarcas según provincia
+  poblarComarcas();
+  // Restaurar valor comarca si sigue siendo válido
+  const comarcaValida = comarques.find(c =>
+    c === com && (!prov || comarcaMunicipis[c]?.provincia === prov)
+  );
+  if (fComarca()) fComarca().value = comarcaValida ?? '';
+
+  const comActual = fComarca()?.value ?? '';
+
+  // Poblar municipios
   const fMun = fMunicipio();
   if (fMun) {
     const munActual = fMun.value;
-    const municipisDeComarca = com ? Object.keys(comarcaMunicipis[com]?.municipis ?? {}) : [];
+    const municipisDeComarca = comActual
+      ? Object.keys(comarcaMunicipis[comActual]?.municipis ?? {})
+      : [];
     fMun.innerHTML = `<option value="">${t('allMunicipis')}</option>` +
       municipisDeComarca.map(m => {
         const nom = currentLang === 'val'
-          ? (comarcaMunicipis[com]?.municipis[m]?.val ?? m)
+          ? (comarcaMunicipis[comActual]?.municipis[m]?.val ?? m)
           : m;
         return `<option value="${m}"${m === munActual ? ' selected' : ''}>${nom}</option>`;
       }).join('');
     if (munActual && !municipisDeComarca.includes(munActual)) fMun.value = '';
   }
 
-  // Base filtrada por comarca + municipio + nivel
-  const mun = safe(fMunicipio()?.value);
-  const baseFam = datosEnriquecidos.filter(d =>
-    (!com || d.comarca    === com) &&
-    (!mun || d.municipio  === mun) &&
-    (!niv || d.nivel      === niv)
-  );
+  // Base filtrada
+  const munActual2 = safe(fMunicipio()?.value);
+  const baseFam = datosEnriquecidos.filter(d => {
+    if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
+    if (comActual && d.comarca   !== comActual)  return false;
+    if (munActual2 && d.municipio !== munActual2) return false;
+    if (niv && d.nivel !== niv) return false;
+    return true;
+  });
   const baseCic = baseFam.filter(d => !fam || d.familia === fam);
 
   // Poblar familias
@@ -120,9 +149,13 @@ export function actualizarFiltrosCascada() {
     if (cicloActual && !ciclosDisponibles.includes(cicloActual)) fCic.value = '';
   }
 
-  // Poblar centros (solo de la comarca)
+  // Poblar centros
   const centros = [...new Set(
-    datosEnriquecidos.filter(d => !com || d.comarca === com).map(d => d.centro)
+    datosEnriquecidos.filter(d => {
+      if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
+      if (comActual && d.comarca !== comActual) return false;
+      return true;
+    }).map(d => d.centro)
   )].sort();
   const fCen = fCentro();
   if (fCen) {
@@ -134,21 +167,21 @@ export function actualizarFiltrosCascada() {
   _actualizando = false;
 }
 
-// ── Reset (mantiene comarca) ──────────────────────────────────
+// ── Reset (mantiene provincia) ────────────────────────────────
 export function resetFilters() {
-  const comarcaActual = fComarca()?.value ?? '';
-  ['f-municipio','f-nivel','f-familia','f-ciclo','f-centro','f-tipologia']
+  const provActual = fProvincia()?.value ?? '';
+  ['f-comarca','f-municipio','f-nivel','f-familia','f-ciclo','f-centro','f-tipologia']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  // Restaurar comarca
-  if (fComarca()) fComarca().value = comarcaActual;
+  if (fProvincia()) fProvincia().value = provActual;
   actualizarFiltrosCascada();
   requestUpdate();
 }
 
-// ── Inicializar listeners ─────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────
 export function initFilters() {
   const on = (id, fn) => document.getElementById(id)?.addEventListener('change', fn);
 
+  on('f-provincia', () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-comarca',   () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-municipio', () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-nivel',     () => { actualizarFiltrosCascada(); requestUpdate(); });
@@ -158,6 +191,6 @@ export function initFilters() {
   on('f-tipologia', requestUpdate);
   document.getElementById('btn-reset')?.addEventListener('click', resetFilters);
 
-  // Inicializar select de comarcas
+  poblarProvincies();
   poblarComarcas();
 }
