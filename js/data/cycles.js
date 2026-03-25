@@ -311,13 +311,6 @@ export const datos = [
   {centro:"IES Luís García Berlanga",nivel:"GS",familia:"Comunicación, Imagen y Sonido",ciclo:"Iluminación, Captación y Tratamiento de Imagen"},
   {centro:"IES Luís García Berlanga",nivel:"GS",familia:"Comunicación, Imagen y Sonido",ciclo:"Animaciones 3D, Juegos y Entornos Interactivos"},
   {centro:"IES Luís García Berlanga",nivel:"GS",familia:"Comunicación, Imagen y Sonido",ciclo:"Realización de Proyectos Audiovisuales y Espectáculos"},
-];
-
-import { centrosInfo } from './centres.js';
-// Enriquecer datos con info del centro (comarca, municipio, lat, lng, privado…)
-export const datosEnriquecidos = datos.map(d => ({
-  ...d, ...(centrosInfo[d.centro] || { comarca:"L'Alacantí", municipio:'Alicante', lat:38.345, lng:-0.481, privado:false })
-}));
 
   // ═══════════════════════════════════════════════════════════
   // L'ALCOIÀ
@@ -819,3 +812,10 @@ export const datosEnriquecidos = datos.map(d => ({
   {centro:"Colegio Jesús María Orihuela", nivel:"GM",  familia:"Sanidad",      ciclo:"Cuidados Auxiliares de Enfermería"},
   {centro:"Colegio Jesús María Orihuela", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
   {centro:"Colegio Jesús María Orihuela", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+];
+
+import { centrosInfo } from './centres.js';
+// Enriquecer datos con info del centro (comarca, municipio, lat, lng, privado…)
+export const datosEnriquecidos = datos.map(d => ({
+  ...d, ...(centrosInfo[d.centro] || { comarca:"L'Alacantí", municipio:'Alicante', lat:38.345, lng:-0.481, privado:false })
+}));
