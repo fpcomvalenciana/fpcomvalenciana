@@ -1,15 +1,23 @@
 // ============================================================
 // MAIN — orquestador principal
 // ============================================================
-import { applyUILang, setLang }                 from './ui/language.js';
+import { applyUILang, setLang, currentLang }           from './ui/language.js';
 import { initFilters, actualizarFiltrosCascada,
-         fNivel, fFamilia, fCiclo }              from './ui/filters.js';
-import { updateView, setTab, currentTab }        from './ui/render-cards.js';
-import { initInfoPanel }                         from './ui/render-info.js';
+         fNivel, fFamilia, fCiclo, fComarca, poblarComarcas } from './ui/filters.js';
+import { updateView, setTab }                          from './ui/render-cards.js';
+import { initInfoPanel }                               from './ui/render-info.js';
 
+// ── Detectar idioma del navegador ─────────────────────────────
+function detectarIdioma() {
+  const lang = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
+  // Valenciano / catalán
+  if (lang.startsWith('ca') || lang.startsWith('val') || lang === 'ca-es') return 'val';
+  return 'es';
+}
+
+// ── Ir a una familia+ciclo concreto ──────────────────────────
 function gotoFamiliaConCiclo({ familia, ciclo, nivel }) {
   setTab('familias', document.getElementById('tab-familias'));
-  // Mostrar filtros de familia/ciclo
   document.getElementById('fg-familia').style.display   = '';
   document.getElementById('fg-ciclo').style.display     = '';
   document.getElementById('fg-centro').style.display    = 'none';
@@ -21,34 +29,35 @@ function gotoFamiliaConCiclo({ familia, ciclo, nivel }) {
 }
 
 function init() {
-  // ── Eventos personalizados (evitan dependencias circulares) ──
-  document.addEventListener('fp:update',   updateView);
-  document.addEventListener('fp:cascade',  actualizarFiltrosCascada);
+  // ── Idioma por navegador ──────────────────────────────────
+  const idioma = detectarIdioma();
+
+  // ── Eventos personalizados ────────────────────────────────
+  document.addEventListener('fp:update',      updateView);
+  document.addEventListener('fp:cascade',     actualizarFiltrosCascada);
   document.addEventListener('fp:goto-ciclo',  e => gotoFamiliaConCiclo(e.detail));
   document.addEventListener('fp:goto-nivel',  e => {
     const { fn, familia, ciclo } = e.detail;
     gotoFamiliaConCiclo({ familia, ciclo, nivel: fn === 'irAGM' ? 'GM' : 'GS' });
   });
 
-  // ── Filtros ───────────────────────────────────────────────────
+  // ── Filtros ───────────────────────────────────────────────
   initFilters();
 
-  // ── Info panel (botones FPB→GM / GM→GS) ──────────────────────
+  // ── Info panel ────────────────────────────────────────────
   initInfoPanel();
 
-  // ── Tabs ──────────────────────────────────────────────────────
+  // ── Tabs ──────────────────────────────────────────────────
   document.getElementById('tab-familias')?.addEventListener('click', e => setTab('familias', e.currentTarget));
   document.getElementById('tab-centros')?.addEventListener('click',  e => setTab('centros',  e.currentTarget));
   document.getElementById('tab-mapa')?.addEventListener('click',     e => setTab('mapa',     e.currentTarget));
 
-  // ── Idioma ────────────────────────────────────────────────────
+  // ── Idioma ────────────────────────────────────────────────
   document.getElementById('btn-es')?.addEventListener('click',  () => setLang('es'));
   document.getElementById('btn-val')?.addEventListener('click', () => setLang('val'));
 
-  // ── Primer render ─────────────────────────────────────────────
-  actualizarFiltrosCascada();
-  updateView();
-  applyUILang();
+  // ── Primer render (idioma por navegador) ──────────────────
+  setLang(idioma);   // aplica UI + repopula selects + llama updateView
 }
 
 document.addEventListener('DOMContentLoaded', init);

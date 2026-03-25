@@ -1,10 +1,11 @@
 import { getFiltered }    from './filters.js';
 import { updateInfoPanel } from './render-info.js';
 import { initMap, renderMap } from './render-map.js';
-import { t, tFam, tCicle } from './language.js';
+import { t, tFam, tCicle, currentLang } from './language.js';
 import { centrosInfo }    from '../data/centres.js';
-import { familiaEmoji }   from '../data/cycles.js';
-import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo } from './filters.js';
+import { familiaEmoji, datosEnriquecidos } from '../data/cycles.js';
+import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio } from './filters.js';
+import { comarcaMunicipis } from '../data/comarques.js';
 
 const safe = (txt) => txt ?? '';
 
@@ -12,13 +13,90 @@ export let currentTab = 'familias';
 
 // ── Punto de entrada central ──────────────────────────────────
 export function updateView() {
+  const comarcaVal = fComarca()?.value ?? '';
+  actualizarTitulo(comarcaVal);
+  actualizarEstadoVacio(comarcaVal);
+  if (!comarcaVal) return; // web en blanco sin comarca
+
   const data = getFiltered();
-  renderStats(data);
+  renderStats(data, comarcaVal);
   updateInfoPanel(data);
   renderCards(data);
 }
 
-function renderStats(data) {
+// ── Título dinámico ───────────────────────────────────────────
+function actualizarTitulo(comarca) {
+  const h1 = document.querySelector('h1');
+  const sub = document.querySelector('.header-sub');
+  const tag = document.querySelector('.header-tag');
+  if (!h1) return;
+
+  if (!comarca) {
+    h1.innerHTML  = currentLang === 'val'
+      ? "FP a <span>la Comunitat Valenciana</span>"
+      : "FP en <span>la Comunitat Valenciana</span>";
+    if (sub) sub.textContent = currentLang === 'val'
+      ? "Tota l'oferta de Formació Professional de la Comunitat en un sol lloc"
+      : "Toda la oferta de Formación Profesional de la Comunitat en un solo lugar";
+  } else {
+    const nomComarca = currentLang === 'val'
+      ? comarcaMunicipis[comarca]?.val ?? comarca
+      : comarcaMunicipis[comarca]?.es ?? comarca;
+    h1.innerHTML  = currentLang === 'val'
+      ? `FP a <span>${nomComarca}</span>`
+      : `FP en <span>${nomComarca}</span>`;
+    if (sub) sub.textContent = currentLang === 'val'
+      ? "Tota l'oferta de Formació Professional de la comarca en un sol lloc"
+      : "Toda la oferta de Formación Profesional de la comarca en un solo lugar";
+  }
+}
+
+// ── Estado vacío (sin comarca) ────────────────────────────────
+function actualizarEstadoVacio(comarca) {
+  const emptyEl   = document.getElementById('comarca-empty-state');
+  const tabsEl    = document.querySelector('.tabs');
+  const statsEl   = document.getElementById('stats-panel');
+  const infoEl    = document.getElementById('info-panel');
+  const cardsEl   = document.getElementById('cards-container');
+  const mapEl     = document.getElementById('map-container');
+
+  if (!comarca) {
+    if (emptyEl)  emptyEl.style.display  = '';
+    if (tabsEl)   tabsEl.style.display   = 'none';
+    if (statsEl)  statsEl.style.display  = 'none';
+    if (infoEl)   infoEl.classList.remove('visible');
+    if (cardsEl)  cardsEl.style.display  = 'none';
+    if (mapEl)    mapEl.style.display    = 'none';
+    // Actualizar contadores globales
+    const totalCentres = new Set(datosEnriquecidos.map(d => d.centro)).size;
+    const totalCicles  = datosEnriquecidos.length;
+    const totalFams    = new Set(datosEnriquecidos.map(d => d.familia)).size;
+    const elC = document.getElementById('total-centros');
+    const elCi = document.getElementById('total-ciclos');
+    const elF = document.getElementById('total-familias');
+    if (elC)  elC.textContent  = totalCentres;
+    if (elCi) elCi.textContent = totalCicles;
+    if (elF)  elF.textContent  = totalFams;
+    // Labels en idioma correcto
+    const elLblC  = document.getElementById('lbl-total-centros');
+    const elLblCi = document.getElementById('lbl-total-ciclos');
+    const elLblF  = document.getElementById('lbl-total-familias');
+    if (elLblC)  elLblC.textContent  = t('statCentres')  || 'centros';
+    if (elLblCi) elLblCi.textContent = t('statCicles')   || 'ciclos';
+    if (elLblF)  elLblF.textContent  = t('statFamiliesPro') || 'familias';
+    const prompt = document.getElementById('comarca-prompt-text');
+    if (prompt) prompt.textContent = currentLang === 'val'
+      ? "Selecciona una comarca per veure l'oferta d'FP"
+      : "Selecciona una comarca para ver la oferta de FP";
+  } else {
+    if (emptyEl)  emptyEl.style.display  = 'none';
+    if (tabsEl)   tabsEl.style.display   = '';
+    if (cardsEl)  cardsEl.style.display  = currentTab === 'mapa' ? 'none' : '';
+    if (mapEl)    mapEl.style.display    = currentTab === 'mapa' ? 'block' : 'none';
+  }
+}
+
+function renderStats(data, comarca) {
   const count = data.length;
   const el = document.getElementById('result-label');
   if (el) el.innerHTML =
@@ -105,7 +183,6 @@ function renderCentros(data) {
     </div>`;
   }).join('');
 
-  // Delegación: click en ciclo → ir a vista familias
   grid.addEventListener('click', e => {
     const item = e.target.closest('.ciclo-item[data-familia]');
     if (!item) return;
@@ -141,5 +218,6 @@ export function setTab(tab, btn) {
 // ── Helpers ───────────────────────────────────────────────────
 function emptyState() {
   return '<div class="empty-state"><span class="emoji">🔍</span><p>' +
-    'No hay ciclos que coincidan con los filtros.<br>Prueba a cambiar algún filtro.</p></div>';
+    (t('empty') || 'No hay ciclos que coincidan con los filtros.<br>Prueba a cambiar algún filtro.') +
+    '</p></div>';
 }

@@ -22,6 +22,8 @@ export const familiaEmoji = {
   "Servicios Socioculturales y a la Comunidad": "🤝",
   "Transporte y Mantenimiento de Vehículos": "🚗",
   "Artes Plásticas y Diseño": "🎨",
+  "Energía y Agua":                      "💧",
+  "Textil, Confección y Piel":           "🧵",
 };
 
 export const cicloInfo = {
@@ -312,7 +314,508 @@ export const datos = [
 ];
 
 import { centrosInfo } from './centres.js';
-// Enriquecer datos con info del centro (municipio, lat, lng, privado…)
+// Enriquecer datos con info del centro (comarca, municipio, lat, lng, privado…)
 export const datosEnriquecidos = datos.map(d => ({
-  ...d, ...(centrosInfo[d.centro] || { municipio:'Alicante', lat:38.345, lng:-0.481, privado:false })
+  ...d, ...(centrosInfo[d.centro] || { comarca:"L'Alacantí", municipio:'Alicante', lat:38.345, lng:-0.481, privado:false })
 }));
+
+  // ═══════════════════════════════════════════════════════════
+  // L'ALCOIÀ
+  // ═══════════════════════════════════════════════════════════
+
+  // CIPFP BATOI — Alcoy/Alcoi
+  // Imatge Personal
+  {centro:"CIPFP Batoi", nivel:"FPB", familia:"Imagen Personal", ciclo:"Peluquería y Estética"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Imagen Personal", ciclo:"Peluquería y Cosmética Capilar"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estética Integral y Bienestar"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estilismo y Dirección de Peluquería"},
+  // Sanitat
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Sanidad",                        ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Sanidad",                        ciclo:"Farmacia y Parafarmacia"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Sanidad",                        ciclo:"Emergencias Sanitarias"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Sanidad",                        ciclo:"Imagen para el Diagnóstico y Medicina Nuclear"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Sanidad",                        ciclo:"Laboratorio Clínico y Biomédico"},
+  // Servicis Socioculturals
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Animación Sociocultural y Turística"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Integración Social"},
+  // Hostaleria i Turisme
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Hostelería y Turismo",           ciclo:"Cocina y Gastronomía"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Hostelería y Turismo",           ciclo:"Servicios en Restauración"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Hostelería y Turismo",           ciclo:"Dirección de Cocina"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Hostelería y Turismo",           ciclo:"Gestión de Alojamientos Turísticos"},
+  // Administració
+  {centro:"CIPFP Batoi", nivel:"FPB", familia:"Administración y Gestión",       ciclo:"Servicios Administrativos"},
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Administración y Gestión",       ciclo:"Gestión Administrativa"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Administración y Gestión",       ciclo:"Asistencia a la Dirección"},
+  // Informàtica
+  {centro:"CIPFP Batoi", nivel:"GM",  familia:"Informática y Comunicaciones",   ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"CIPFP Batoi", nivel:"GS",  familia:"Informática y Comunicaciones",   ciclo:"Desarrollo de Aplicaciones Web"},
+
+  // IES COTES BAIXES — Alcoy/Alcoi
+  // Automoció
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Electromecánica de Vehículos Automóviles"},
+  // Tèxtil
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Textil, Confección y Piel", ciclo:"Operaciones de Ennoblecimiento Textil"},
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Textil, Confección y Piel", ciclo:"Producción de Hilatura y Tejeduría de Calada"},
+  {centro:"IES Cotes Baixes", nivel:"GS",  familia:"Textil, Confección y Piel", ciclo:"Diseño Técnico en Textil y Piel"},
+  // Fabricació Mecànica
+  {centro:"IES Cotes Baixes", nivel:"FPB", familia:"Fabricación Mecánica",      ciclo:"Fabricación y Montaje"},
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Fabricación Mecánica",      ciclo:"Mecanizado"},
+  {centro:"IES Cotes Baixes", nivel:"GS",  familia:"Fabricación Mecánica",      ciclo:"Programación de la Producción en Fabricación Mecánica"},
+  // Comerç
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Comercio y Márketing",      ciclo:"Actividades Comerciales"},
+  // Fusta i Moble
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Madera, Mueble y Corcho",   ciclo:"Fabricación a Medida e Instalación de Carpintería y Mueble"},
+  // Electricitat i Electrònica
+  {centro:"IES Cotes Baixes", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES Cotes Baixes", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Sistemas Electrotécnicos y Automatizados"},
+  // Energies Renovables
+  {centro:"IES Cotes Baixes", nivel:"GS",  familia:"Energía y Agua",            ciclo:"Energías Renovables"},
+
+  // IES PARE VITÒRIA — Alcoy/Alcoi
+  {centro:"IES Pare Vitòria", nivel:"FPB", familia:"Administración y Gestión",  ciclo:"Servicios Administrativos"},
+  {centro:"IES Pare Vitòria", nivel:"GM",  familia:"Administración y Gestión",  ciclo:"Gestión Administrativa"},
+  {centro:"IES Pare Vitòria", nivel:"GS",  familia:"Administración y Gestión",  ciclo:"Administración y Finanzas"},
+
+  // IES ANDREU SEMPERE — Alcoy/Alcoi (FPB)
+  {centro:"IES Andreu Sempere", nivel:"FPB", familia:"Fabricación Mecánica",    ciclo:"Fabricación y Montaje"},
+  {centro:"IES Andreu Sempere", nivel:"FPB", familia:"Electricidad y Electrónica", ciclo:"Electricidad y Electrónica"},
+
+  // COL·LEGI SANT ROC — Alcoy/Alcoi (privat concertat)
+  {centro:"Col·legi Sant Roc", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"Col·legi Sant Roc", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+  {centro:"Col·legi Sant Roc", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"Col·legi Sant Roc", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Integración Social"},
+
+  // SALESIANOS JOAN XXIII — Alcoy/Alcoi (privat concertat)
+  {centro:"Salesianos Joan XXIII Alcoi", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones de Telecomunicaciones"},
+  {centro:"Salesianos Joan XXIII Alcoi", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"Salesianos Joan XXIII Alcoi", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Sistemas Electrotécnicos y Automatizados"},
+
+  // ═══════════════════════════════════════════════════════════
+  // EL COMTAT
+  // ═══════════════════════════════════════════════════════════
+
+  // IES EL COMTAT — Cocentaina
+  {centro:"IES El Comtat", nivel:"FPB", familia:"Administración y Gestión",     ciclo:"Servicios Administrativos"},
+  {centro:"IES El Comtat", nivel:"GM",  familia:"Administración y Gestión",     ciclo:"Gestión Administrativa"},
+  {centro:"IES El Comtat", nivel:"GS",  familia:"Administración y Gestión",     ciclo:"Administración y Finanzas"},
+  {centro:"IES El Comtat", nivel:"GM",  familia:"Comercio y Márketing",         ciclo:"Actividades Comerciales"},
+  {centro:"IES El Comtat", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+
+  // IES MURO — Muro de Alcoy/Muro d'Alcoi
+  {centro:"IES Muro", nivel:"FPB", familia:"Administración y Gestión",          ciclo:"Servicios Administrativos"},
+  {centro:"IES Muro", nivel:"GM",  familia:"Administración y Gestión",          ciclo:"Gestión Administrativa"},
+  {centro:"IES Muro", nivel:"GM",  familia:"Agraria",                           ciclo:"Jardinería y Floristería"},
+
+  // ═══════════════════════════════════════════════════════════
+  // LA MARINA ALTA
+  // ═══════════════════════════════════════════════════════════
+
+  // CIPFP DÉNIA — Dénia
+  {centro:"CIPFP Dénia", nivel:"FPB", familia:"Hostelería y Turismo",           ciclo:"Cocina y Restauración"},
+  {centro:"CIPFP Dénia", nivel:"GM",  familia:"Hostelería y Turismo",           ciclo:"Cocina y Gastronomía"},
+  {centro:"CIPFP Dénia", nivel:"GM",  familia:"Hostelería y Turismo",           ciclo:"Servicios en Restauración"},
+  {centro:"CIPFP Dénia", nivel:"GS",  familia:"Hostelería y Turismo",           ciclo:"Dirección de Cocina"},
+  {centro:"CIPFP Dénia", nivel:"GS",  familia:"Hostelería y Turismo",           ciclo:"Gestión de Alojamientos Turísticos"},
+  {centro:"CIPFP Dénia", nivel:"GS",  familia:"Hostelería y Turismo",           ciclo:"Guía, Información y Asistencias Turísticas"},
+  {centro:"CIPFP Dénia", nivel:"GM",  familia:"Marítimo-Pesquera",              ciclo:"Navegación y Pesca de Litoral"},
+  {centro:"CIPFP Dénia", nivel:"GM",  familia:"Comercio y Márketing",           ciclo:"Actividades Comerciales"},
+  {centro:"CIPFP Dénia", nivel:"GS",  familia:"Comercio y Márketing",           ciclo:"Comercio Internacional"},
+
+  // IES MARIA IBARS — Dénia
+  {centro:"IES Maria Ibars", nivel:"FPB", familia:"Hostelería y Turismo",       ciclo:"Cocina y Restauración"},
+  {centro:"IES Maria Ibars", nivel:"GM",  familia:"Industrias Alimentarias",    ciclo:"Elaboración de Productos Alimenticios"},
+  {centro:"IES Maria Ibars", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Automatización y Robótica Industrial"},
+
+  // IES LA MAR — Xàbia/Jávea
+  {centro:"IES La Mar", nivel:"FPB", familia:"Administración y Gestión",        ciclo:"Servicios Administrativos"},
+  {centro:"IES La Mar", nivel:"GM",  familia:"Administración y Gestión",        ciclo:"Gestión Administrativa"},
+  {centro:"IES La Mar", nivel:"GS",  familia:"Administración y Gestión",        ciclo:"Administración y Finanzas"},
+  {centro:"IES La Mar", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"IES La Mar", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+  {centro:"IES La Mar", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Integración Social"},
+  {centro:"IES La Mar", nivel:"GM",  familia:"Sanidad",                         ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES La Mar", nivel:"GS",  familia:"Sanidad",                         ciclo:"Dietética"},
+  {centro:"IES La Mar", nivel:"GM",  familia:"Comercio y Márketing",            ciclo:"Actividades Comerciales"},
+  {centro:"IES La Mar", nivel:"GS",  familia:"Comercio y Márketing",            ciclo:"Comercio Internacional"},
+
+  // IES PEDREGUER — Pedreguer
+  {centro:"IES de Pedreguer", nivel:"GS",  familia:"Sanidad",                  ciclo:"Laboratorio Clínico y Biomédico"},
+  {centro:"IES de Pedreguer", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES de Pedreguer", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+
+  // IES JOSEP IBORRA — Benissa
+  {centro:"IES Josep Iborra", nivel:"FPB", familia:"Hostelería y Turismo",     ciclo:"Cocina y Restauración"},
+  {centro:"IES Josep Iborra", nivel:"GS",  familia:"Comercio y Márketing",     ciclo:"Comercio Internacional"},
+  {centro:"IES Josep Iborra", nivel:"GS",  familia:"Hostelería y Turismo",     ciclo:"Gestión de Alojamientos Turísticos"},
+
+  // IES IFAC — Calp/Calpe
+  {centro:"IES Ifac", nivel:"GM",  familia:"Marítimo-Pesquera",               ciclo:"Navegación y Pesca de Litoral"},
+  {centro:"IES Ifac", nivel:"FPB", familia:"Administración y Gestión",        ciclo:"Servicios Administrativos"},
+  {centro:"IES Ifac", nivel:"GM",  familia:"Administración y Gestión",        ciclo:"Gestión Administrativa"},
+
+  // IES ONDARA — Ondara
+  {centro:"IES Ondara", nivel:"FPB", familia:"Administración y Gestión",      ciclo:"Servicios Administrativos"},
+  {centro:"IES Ondara", nivel:"GM",  familia:"Administración y Gestión",      ciclo:"Gestión Administrativa"},
+  {centro:"IES Ondara", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+
+  // ═══════════════════════════════════════════════════════════
+  // LA MARINA BAIXA
+  // ═══════════════════════════════════════════════════════════
+
+  // IES BEATRIU FAJARDO DE MENDOZA — Benidorm
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"FPB", familia:"Hostelería y Turismo",          ciclo:"Alojamiento y Lavandería"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"FPB", familia:"Hostelería y Turismo",          ciclo:"Cocina y Restauración"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GM",  familia:"Hostelería y Turismo",          ciclo:"Cocina y Gastronomía"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GM",  familia:"Hostelería y Turismo",          ciclo:"Servicios en Restauración"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GS",  familia:"Hostelería y Turismo",          ciclo:"Dirección de Cocina"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GS",  familia:"Hostelería y Turismo",          ciclo:"Guía, Información y Asistencias Turísticas"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GS",  familia:"Energía y Agua",                ciclo:"Gestión del Agua"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GM",  familia:"Fabricación Mecánica",          ciclo:"Mecanizado"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GS",  familia:"Fabricación Mecánica",          ciclo:"Diseño en Fabricación Mecánica"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GM",  familia:"Comercio y Márketing",          ciclo:"Actividades Comerciales"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GM",  familia:"Comunicación, Imagen y Sonido",               ciclo:"Vídeo Disc-jockey y Sonido"},
+  {centro:"IES Beatriu Fajardo de Mendoza", nivel:"GS",  familia:"Comunicación, Imagen y Sonido",               ciclo:"Producción de Audiovisuales y Espectáculos"},
+
+  // IES BERNAT DE SARRIÀ — Benidorm (Imatge Personal)
+  {centro:"IES Bernat de Sarrià", nivel:"FPB", familia:"Imagen Personal", ciclo:"Peluquería y Estética"},
+  {centro:"IES Bernat de Sarrià", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+  {centro:"IES Bernat de Sarrià", nivel:"GM",  familia:"Imagen Personal", ciclo:"Peluquería y Cosmética Capilar"},
+  {centro:"IES Bernat de Sarrià", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estética Integral y Bienestar"},
+  {centro:"IES Bernat de Sarrià", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estilismo y Dirección de Peluquería"},
+  {centro:"IES Bernat de Sarrià", nivel:"GS",  familia:"Imagen Personal", ciclo:"Asesoría de Imagen Personal y Corporativa"},
+
+  // IES L'ALMADRAVA — Benidorm (Sanitat)
+  {centro:"IES L'Almadrava", nivel:"FPB", familia:"Agraria",                   ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES L'Almadrava", nivel:"GM",  familia:"Sanidad",                   ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES L'Almadrava", nivel:"GM",  familia:"Sanidad",                   ciclo:"Farmacia y Parafarmacia"},
+  {centro:"IES L'Almadrava", nivel:"GS",  familia:"Sanidad",                   ciclo:"Dietética"},
+  {centro:"IES L'Almadrava", nivel:"GS",  familia:"Sanidad",                   ciclo:"Laboratorio Clínico y Biomédico"},
+  {centro:"IES L'Almadrava", nivel:"GS",  familia:"Química",                   ciclo:"Química y Salud Ambiental"},
+
+  // IES PERE MARIA ORTS I BOSCH — Benidorm (Informàtica + Ciberseguretat)
+  {centro:"IES Pere Maria Orts i Bosch", nivel:"FPB", familia:"Informática y Comunicaciones", ciclo:"Informática de Oficina"},
+  {centro:"IES Pere Maria Orts i Bosch", nivel:"GM",  familia:"Informática y Comunicaciones", ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES Pere Maria Orts i Bosch", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Administración de Sistemas Informáticos en Red"},
+  {centro:"IES Pere Maria Orts i Bosch", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Desarrollo de Aplicaciones Multiplataforma"},
+
+  // IES MEDITERRÀNIA — Benidorm (Hostaleria)
+  {centro:"IES Mediterrània", nivel:"FPB", familia:"Hostelería y Turismo",     ciclo:"Alojamiento y Lavandería"},
+  {centro:"IES Mediterrània", nivel:"FPB", familia:"Hostelería y Turismo",     ciclo:"Cocina y Restauración"},
+  {centro:"IES Mediterrània", nivel:"GM",  familia:"Hostelería y Turismo",     ciclo:"Cocina y Gastronomía"},
+  {centro:"IES Mediterrània", nivel:"GM",  familia:"Hostelería y Turismo",     ciclo:"Servicios en Restauración"},
+  {centro:"IES Mediterrània", nivel:"GS",  familia:"Hostelería y Turismo",     ciclo:"Dirección de Cocina"},
+  {centro:"IES Mediterrània", nivel:"GS",  familia:"Hostelería y Turismo",     ciclo:"Gestión de Alojamientos Turísticos"},
+  {centro:"IES Mediterrània", nivel:"GS",  familia:"Hostelería y Turismo",     ciclo:"Guía, Información y Asistencias Turísticas"},
+
+  // IES BELLAGUARDA — Altea
+  {centro:"IES Bellaguarda", nivel:"FPB", familia:"Agraria",                   ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES Bellaguarda", nivel:"GM",  familia:"Agraria",                   ciclo:"Jardinería y Floristería"},
+  {centro:"IES Bellaguarda", nivel:"GS",  familia:"Agraria",                   ciclo:"Paisajismo y Medio Rural"},
+  {centro:"IES Bellaguarda", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES Bellaguarda", nivel:"GM",  familia:"Administración y Gestión",  ciclo:"Gestión Administrativa"},
+  {centro:"IES Bellaguarda", nivel:"GM",  familia:"Comercio y Márketing",      ciclo:"Actividades Comerciales"},
+
+  // IES L'ARABÍ — l'Alfàs del Pi
+  {centro:"IES L'Arabí", nivel:"FPB", familia:"Agraria",                       ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES L'Arabí", nivel:"FPB", familia:"Informática y Comunicaciones",  ciclo:"Informática de Oficina"},
+  {centro:"IES L'Arabí", nivel:"GM",  familia:"Informática y Comunicaciones",  ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES L'Arabí", nivel:"GM",  familia:"Sanidad",                       ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES L'Arabí", nivel:"GM",  familia:"Sanidad",                       ciclo:"Emergencias Sanitarias"},
+  {centro:"IES L'Arabí", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"IES L'Arabí", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+  {centro:"IES L'Arabí", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Integración Social"},
+  {centro:"IES L'Arabí", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Promoción de Igualdad de Género"},
+  {centro:"IES L'Arabí", nivel:"GS",  familia:"Sanidad",                       ciclo:"Dietética"},
+
+  // IES MARCOS ZARAGOZA — La Vila Joiosa/Villajoyosa
+  {centro:"IES Marcos Zaragoza", nivel:"GM",  familia:"Administración y Gestión",      ciclo:"Gestión Administrativa"},
+  {centro:"IES Marcos Zaragoza", nivel:"GS",  familia:"Administración y Gestión",      ciclo:"Administración y Finanzas"},
+  {centro:"IES Marcos Zaragoza", nivel:"GM",  familia:"Electricidad y Electrónica",    ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES Marcos Zaragoza", nivel:"GM",  familia:"Electricidad y Electrónica",    ciclo:"Instalaciones de Telecomunicaciones"},
+  {centro:"IES Marcos Zaragoza", nivel:"GM",  familia:"Informática y Comunicaciones",  ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES Marcos Zaragoza", nivel:"GS",  familia:"Informática y Comunicaciones",  ciclo:"Administración de Sistemas Informáticos en Red"},
+
+  // IES MARINA BAIXA — La Vila Joiosa/Villajoyosa
+  {centro:"IES Marina Baixa", nivel:"FPB", familia:"Administración y Gestión", ciclo:"Servicios Administrativos"},
+  {centro:"IES Marina Baixa", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Marina Baixa", nivel:"GM",  familia:"Comercio y Márketing",     ciclo:"Actividades Comerciales"},
+
+  // IES LA NUCÍA — La Nucía
+  {centro:"IES La Nucía", nivel:"FPB", familia:"Actividades Físicas y Deportivas", ciclo:"Actividades de Acondicionamiento Físico"},
+  {centro:"IES La Nucía", nivel:"FPB", familia:"Electricidad y Electrónica",   ciclo:"Electricidad y Electrónica"},
+  {centro:"IES La Nucía", nivel:"GM",  familia:"Actividades Físicas y Deportivas", ciclo:"Guía en el Medio Natural y de Tiempo Libre"},
+  {centro:"IES La Nucía", nivel:"GS",  familia:"Actividades Físicas y Deportivas", ciclo:"Acondicionamiento Físico"},
+  {centro:"IES La Nucía", nivel:"GS",  familia:"Actividades Físicas y Deportivas", ciclo:"Enseñanza y Animación Sociodeportiva"},
+
+  // IES RODOLFO LLOPIS — Callosa d'En Sarrià (Agrària)
+  {centro:"IES Rodolfo Llopis", nivel:"FPB", familia:"Agraria",               ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES Rodolfo Llopis", nivel:"GM",  familia:"Agraria",               ciclo:"Jardinería y Floristería"},
+  {centro:"IES Rodolfo Llopis", nivel:"GM",  familia:"Agraria",               ciclo:"Aprovechamiento y Conservación del Medio Natural"},
+  {centro:"IES Rodolfo Llopis", nivel:"GS",  familia:"Agraria",               ciclo:"Gestión Forestal y del Medio Natural"},
+
+  // ═══════════════════════════════════════════════════════════
+  // L'ALT VINALOPÓ
+  // ═══════════════════════════════════════════════════════════
+
+  // IES HERMANOS AMORÓS — Villena
+  {centro:"IES Hermanos Amorós", nivel:"FPB", familia:"Agraria",              ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES Hermanos Amorós", nivel:"GM",  familia:"Informática y Comunicaciones", ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES Hermanos Amorós", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Desarrollo de Aplicaciones Web"},
+  {centro:"IES Hermanos Amorós", nivel:"GS",  familia:"Agraria",             ciclo:"Gestión Forestal y del Medio Natural"},
+  {centro:"IES Hermanos Amorós", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+  {centro:"IES Hermanos Amorós", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Integración Social"},
+
+  // IES NAVARRO SANTAFÉ — Villena
+  {centro:"IES Navarro Santafé", nivel:"FPB", familia:"Electricidad y Electrónica", ciclo:"Instalaciones Electrotécnicas y Mecánica"},
+  {centro:"IES Navarro Santafé", nivel:"GM",  familia:"Administración y Gestión",   ciclo:"Gestión Administrativa"},
+  {centro:"IES Navarro Santafé", nivel:"GS",  familia:"Administración y Gestión",   ciclo:"Administración y Finanzas"},
+  {centro:"IES Navarro Santafé", nivel:"GM",  familia:"Fabricación Mecánica",       ciclo:"Mecanizado"},
+  {centro:"IES Navarro Santafé", nivel:"GS",  familia:"Fabricación Mecánica",       ciclo:"Programación de la Producción en Fabricación Mecánica"},
+  {centro:"IES Navarro Santafé", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES Navarro Santafé", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Sistemas Electrotécnicos y Automatizados"},
+  {centro:"IES Navarro Santafé", nivel:"GS",  familia:"Energía y Agua",             ciclo:"Energías Renovables"},
+
+  // IES LAS FUENTES — Villena
+  {centro:"IES Las Fuentes", nivel:"FPB", familia:"Imagen Personal", ciclo:"Peluquería y Estética"},
+  {centro:"IES Las Fuentes", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+  {centro:"IES Las Fuentes", nivel:"GM",  familia:"Imagen Personal", ciclo:"Peluquería y Cosmética Capilar"},
+  {centro:"IES Las Fuentes", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estética Integral y Bienestar"},
+  {centro:"IES Las Fuentes", nivel:"GM",  familia:"Comercio y Márketing",          ciclo:"Actividades Comerciales"},
+  {centro:"IES Las Fuentes", nivel:"GS",  familia:"Comercio y Márketing",          ciclo:"Comercio Internacional"},
+  {centro:"IES Las Fuentes", nivel:"GS",  familia:"Comercio y Márketing",          ciclo:"Transporte y Logística"},
+
+  // ═══════════════════════════════════════════════════════════
+  // EL VINALOPÓ MITJÀ
+  // ═══════════════════════════════════════════════════════════
+
+  // CIPFP VALLE DE ELDA — Elda
+  {centro:"CIPFP Valle de Elda", nivel:"FPB", familia:"Comercio y Márketing",       ciclo:"Servicios Comerciales"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Comercio y Márketing",       ciclo:"Actividades Comerciales"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Comercio y Márketing",       ciclo:"Comercialización de Productos Alimentarios"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Comercio y Márketing",       ciclo:"Comercio Internacional"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Comercio y Márketing",       ciclo:"Marketing y Publicidad"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Comercio y Márketing",       ciclo:"Transporte y Logística"},
+  {centro:"CIPFP Valle de Elda", nivel:"FPB", familia:"Hostelería y Turismo",       ciclo:"Cocina y Restauración"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Hostelería y Turismo",       ciclo:"Cocina y Gastronomía"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Hostelería y Turismo",       ciclo:"Servicios en Restauración"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Hostelería y Turismo",       ciclo:"Dirección de Cocina"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Hostelería y Turismo",       ciclo:"Guía, Información y Asistencias Turísticas"},
+  {centro:"CIPFP Valle de Elda", nivel:"FPB", familia:"Industrias Alimentarias",    ciclo:"Industrias Alimentarias"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Industrias Alimentarias",    ciclo:"Elaboración de Productos Alimenticios"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Industrias Alimentarias",    ciclo:"Panadería, Repostería y Confitería"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Industrias Alimentarias",    ciclo:"Vitivinicultura"},
+  {centro:"CIPFP Valle de Elda", nivel:"FPB", familia:"Informática y Comunicaciones", ciclo:"Informática y Comunicaciones"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Informática y Comunicaciones", ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"CIPFP Valle de Elda", nivel:"GM",  familia:"Seguridad y Medio Ambiente", ciclo:"Seguridad"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Seguridad y Medio Ambiente", ciclo:"Coordinación de Emergencias y Protección Civil"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Promoción de Igualdad de Género"},
+  {centro:"CIPFP Valle de Elda", nivel:"GS",  familia:"Hostelería y Turismo",       ciclo:"Dirección de Servicios de Restauración"},
+
+  // IES LA TORRETA ELDA — Elda
+  {centro:"IES La Torreta Elda", nivel:"FPB", familia:"Textil, Confección y Piel", ciclo:"Calzado y Complementos"},
+  {centro:"IES La Torreta Elda", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones de Telecomunicaciones"},
+  {centro:"IES La Torreta Elda", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Sistemas Electrotécnicos y Automatizados"},
+  {centro:"IES La Torreta Elda", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+
+  // IES LA MELVA — Elda
+  {centro:"IES La Melva", nivel:"GM",  familia:"Sanidad",                      ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES La Melva", nivel:"GS",  familia:"Sanidad",                      ciclo:"Dietética"},
+
+  // IES MONASTIL — Elda
+  {centro:"IES Monastil", nivel:"FPB", familia:"Actividades Físicas y Deportivas", ciclo:"Actividades de Acondicionamiento Físico"},
+
+  // IES EL VINALOPÓ — Novelda
+  {centro:"IES El Vinalopó", nivel:"FPB", familia:"Administración y Gestión",  ciclo:"Servicios Administrativos"},
+  {centro:"IES El Vinalopó", nivel:"GM",  familia:"Administración y Gestión",  ciclo:"Gestión Administrativa"},
+  {centro:"IES El Vinalopó", nivel:"GS",  familia:"Administración y Gestión",  ciclo:"Administración y Finanzas"},
+  {centro:"IES El Vinalopó", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES El Vinalopó", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Electromecánica de Vehículos Automóviles"},
+  {centro:"IES El Vinalopó", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Aeronaves Pilotadas de Forma Remota"},
+
+  // IES LA MOLA — Novelda
+  {centro:"IES La Mola", nivel:"FPB", familia:"Agraria",                       ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES La Mola", nivel:"FPB", familia:"Comercio y Márketing",          ciclo:"Servicios Comerciales"},
+  {centro:"IES La Mola", nivel:"GM",  familia:"Comercio y Márketing",          ciclo:"Actividades Comerciales"},
+  {centro:"IES La Mola", nivel:"GS",  familia:"Comercio y Márketing",          ciclo:"Marketing y Publicidad"},
+  {centro:"IES La Mola", nivel:"GM",  familia:"Informática y Comunicaciones",  ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES La Mola", nivel:"GS",  familia:"Informática y Comunicaciones",  ciclo:"Desarrollo de Aplicaciones Multiplataforma"},
+  {centro:"IES La Mola", nivel:"GS",  familia:"Informática y Comunicaciones",  ciclo:"Desarrollo de Aplicaciones Web"},
+
+  // ═══════════════════════════════════════════════════════════
+  // EL BAIX VINALOPÓ — ELCHE
+  // ═══════════════════════════════════════════════════════════
+
+  // CIPFP LA TORRETA — Elx/Elche
+  {centro:"CIPFP La Torreta", nivel:"FPB", familia:"Agraria",                  ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"CIPFP La Torreta", nivel:"FPB", familia:"Electricidad y Electrónica", ciclo:"Electricidad y Electrónica"},
+  {centro:"CIPFP La Torreta", nivel:"FPB", familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Mantenimiento de Vehículos"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Carrocería"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Electromecánica de Vehículos Automóviles"},
+  {centro:"CIPFP La Torreta", nivel:"GS",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Automoción"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Sanidad",                  ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Sanidad",                  ciclo:"Emergencias Sanitarias"},
+  {centro:"CIPFP La Torreta", nivel:"GS",  familia:"Sanidad",                  ciclo:"Documentación y Administración Sanitarias"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Imagen Personal", ciclo:"Peluquería y Cosmética Capilar"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Imagen Personal", ciclo:"Instalaciones de Telecomunicaciones"},
+  {centro:"CIPFP La Torreta", nivel:"GM",  familia:"Agraria",                  ciclo:"Jardinería y Floristería"},
+  {centro:"CIPFP La Torreta", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estética Integral y Bienestar"},
+  {centro:"CIPFP La Torreta", nivel:"GS",  familia:"Imagen Personal", ciclo:"Estilismo y Dirección de Peluquería"},
+
+  // IES SIXTO MARCO — Elx/Elche (Calçat — Centre Referència Nacional)
+  {centro:"IES Sixto Marco", nivel:"FPB", familia:"Textil, Confección y Piel", ciclo:"Arreglo y Reparación de Artículos Textiles y de Piel"},
+  {centro:"IES Sixto Marco", nivel:"GM",  familia:"Textil, Confección y Piel", ciclo:"Calzado y Complementos de Moda"},
+  {centro:"IES Sixto Marco", nivel:"GS",  familia:"Textil, Confección y Piel", ciclo:"Diseño y Producción de Calzado y Complementos"},
+
+  // IES CAYETANO SEMPERE — Elx/Elche
+  {centro:"IES Cayetano Sempere", nivel:"GS",  familia:"Energía y Agua",       ciclo:"Energías Renovables"},
+  {centro:"IES Cayetano Sempere", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Cayetano Sempere", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+
+  // IES SEVERO OCHOA — Elx/Elche
+  {centro:"IES Severo Ochoa", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Administración de Sistemas Informáticos en Red"},
+  {centro:"IES Severo Ochoa", nivel:"GS",  familia:"Comercio y Márketing",     ciclo:"Comercio Internacional"},
+  {centro:"IES Severo Ochoa", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+
+  // IES PEDRO IBARRA — Elx/Elche
+  {centro:"IES Pedro Ibarra", nivel:"GM",  familia:"Informática y Comunicaciones", ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"IES Pedro Ibarra", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Desarrollo de Aplicaciones Multiplataforma"},
+  {centro:"IES Pedro Ibarra", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+
+  // IES ASUNCIÓN DE NUESTRA SEÑORA — Elx/Elche
+  {centro:"IES Asunción de Nuestra Señora", nivel:"GM",  familia:"Química",    ciclo:"Operaciones de Laboratorio"},
+  {centro:"IES Asunción de Nuestra Señora", nivel:"GM",  familia:"Sanidad",    ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES Asunción de Nuestra Señora", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+
+  // IES PERIODISTA VICENTE VERDÚ — Elx/Elche
+  {centro:"IES Periodista Vicente Verdú", nivel:"GM",  familia:"Hostelería y Turismo", ciclo:"Panadería, Repostería y Confitería"},
+  {centro:"IES Periodista Vicente Verdú", nivel:"GS",  familia:"Industrias Alimentarias", ciclo:"Procesos y Calidad en la Industria Alimentaria"},
+  {centro:"IES Periodista Vicente Verdú", nivel:"GM",  familia:"Industrias Alimentarias", ciclo:"Elaboración de Productos Alimenticios"},
+
+  // IES MONSERRAT ROIG — Elx/Elche
+  {centro:"IES Monserrat Roig", nivel:"GS",  familia:"Actividades Físicas y Deportivas", ciclo:"Acondicionamiento Físico"},
+  {centro:"IES Monserrat Roig", nivel:"GM",  familia:"Actividades Físicas y Deportivas", ciclo:"Guía en el Medio Natural y de Tiempo Libre"},
+
+  // IES TIRANT LO BLANC — Elx/Elche
+  {centro:"IES Tirant lo Blanc", nivel:"FPB", familia:"Hostelería y Turismo",  ciclo:"Cocina y Restauración"},
+  {centro:"IES Tirant lo Blanc", nivel:"FPB", familia:"Informática y Comunicaciones", ciclo:"Informática de Oficina"},
+  {centro:"IES Tirant lo Blanc", nivel:"GS",  familia:"Hostelería y Turismo",  ciclo:"Agencias de Viajes y Gestión de Eventos"},
+  {centro:"IES Tirant lo Blanc", nivel:"GS",  familia:"Hostelería y Turismo",  ciclo:"Gestión de Alojamientos Turísticos"},
+  {centro:"IES Tirant lo Blanc", nivel:"GS",  familia:"Hostelería y Turismo",  ciclo:"Guía, Información y Asistencias Turísticas"},
+
+  // IES VICTORIA KENT — Elx/Elche
+  {centro:"IES Victoria Kent", nivel:"GS",  familia:"Comercio y Márketing",    ciclo:"Comercio Internacional"},
+  {centro:"IES Victoria Kent", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Victoria Kent", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+
+  // IES CARRUS — Elx/Elche
+  {centro:"IES Carrus", nivel:"FPB", familia:"Fabricación Mecánica",           ciclo:"Fabricación de Elementos Metálicos"},
+  {centro:"IES Carrus", nivel:"GM",  familia:"Fabricación Mecánica",           ciclo:"Soldadura y Calderería"},
+  {centro:"IES Carrus", nivel:"GM",  familia:"Instalación y Mantenimiento",    ciclo:"Instalaciones de Producción de Calor"},
+  {centro:"IES Carrus", nivel:"GS",  familia:"Instalación y Mantenimiento",    ciclo:"Desarrollo de Proyectos de Instalaciones Térmicas y de Fluidos"},
+  {centro:"IES Carrus", nivel:"GM",  familia:"Transporte y Mantenimiento de Vehículos", ciclo:"Electromecánica de Vehículos Automóviles"},
+
+  // IES JOANOT MARTORELL — Elx/Elche
+  {centro:"IES Joanot Martorell", nivel:"FPB", familia:"Administración y Gestión", ciclo:"Servicios Administrativos"},
+  {centro:"IES Joanot Martorell", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Joanot Martorell", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+  {centro:"IES Joanot Martorell", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"IES Joanot Martorell", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+
+  // IES NIT DE L'ALBÀ — Elx/Elche
+  {centro:"IES Nit de l'Albà", nivel:"FPB", familia:"Administración y Gestión", ciclo:"Servicios Administrativos"},
+  {centro:"IES Nit de l'Albà", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Nit de l'Albà", nivel:"GM",  familia:"Comercio y Márketing",     ciclo:"Actividades Comerciales"},
+  {centro:"IES Nit de l'Albà", nivel:"GS",  familia:"Comercio y Márketing",     ciclo:"Gestión de Ventas y Espacios Comerciales"},
+
+  // IES TORRELLANO — Elx/Elche (Torrellano)
+  {centro:"IES Torrellano", nivel:"FPB", familia:"Administración y Gestión",   ciclo:"Servicios Administrativos"},
+  {centro:"IES Torrellano", nivel:"GM",  familia:"Administración y Gestión",   ciclo:"Gestión Administrativa"},
+  {centro:"IES Torrellano", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+
+  // IES MISTERI D'ELX — Elx/Elche (Arts Plàstiques)
+  {centro:"IES Misteri d'Elx", nivel:"GM",  familia:"Artes Plásticas y Diseño",          ciclo:"Impresión Gráfica"},
+  {centro:"IES Misteri d'Elx", nivel:"GS",  familia:"Artes Plásticas y Diseño",          ciclo:"Diseño y Gestión de la Producción Gráfica"},
+  {centro:"IES Misteri d'Elx", nivel:"GS",  familia:"Comunicación, Imagen y Sonido", ciclo:"Animaciones 3D, Juegos y Entornos Interactivos"},
+
+  // ═══════════════════════════════════════════════════════════
+  // LA VEGA BAIXA / EL BAIX SEGURA
+  // ═══════════════════════════════════════════════════════════
+
+  // IES LAS ESPEÑETAS — Orihuela
+  {centro:"IES Las Espeñetas", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Las Espeñetas", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+  {centro:"IES Las Espeñetas", nivel:"GS",  familia:"Comercio y Márketing",     ciclo:"Comercio Internacional"},
+  {centro:"IES Las Espeñetas", nivel:"GS",  familia:"Comercio y Márketing",     ciclo:"Transporte y Logística"},
+
+  // IES THÁDER — Orihuela
+  {centro:"IES Tháder", nivel:"FPB", familia:"Administración y Gestión",       ciclo:"Servicios Administrativos"},
+  {centro:"IES Tháder", nivel:"GM",  familia:"Administración y Gestión",       ciclo:"Gestión Administrativa"},
+  {centro:"IES Tháder", nivel:"GM",  familia:"Sanidad",                        ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"IES Tháder", nivel:"GM",  familia:"Electricidad y Electrónica",     ciclo:"Instalaciones Eléctricas y Automáticas"},
+
+  // IES VEGA BAJA — Callosa de Segura
+  {centro:"IES Vega Baja", nivel:"FPB", familia:"Agraria",                     ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES Vega Baja", nivel:"GM",  familia:"Agraria",                     ciclo:"Producción Agropecuaria"},
+  {centro:"IES Vega Baja", nivel:"GM",  familia:"Administración y Gestión",    ciclo:"Gestión Administrativa"},
+
+  // IES LIBERTAS — Torrevieja
+  {centro:"IES Libertas", nivel:"FPB", familia:"Administración y Gestión",     ciclo:"Servicios Administrativos"},
+  {centro:"IES Libertas", nivel:"GM",  familia:"Administración y Gestión",     ciclo:"Gestión Administrativa"},
+  {centro:"IES Libertas", nivel:"GS",  familia:"Administración y Gestión",     ciclo:"Administración y Finanzas"},
+  {centro:"IES Libertas", nivel:"GM",  familia:"Comercio y Márketing",         ciclo:"Actividades Comerciales"},
+  {centro:"IES Libertas", nivel:"GM",  familia:"Sanidad",                      ciclo:"Cuidados Auxiliares de Enfermería"},
+
+  // IES LAS LAGUNAS — Torrevieja
+  {centro:"IES Las Lagunas", nivel:"FPB", familia:"Administración y Gestión",  ciclo:"Servicios Administrativos"},
+  {centro:"IES Las Lagunas", nivel:"GM",  familia:"Administración y Gestión",  ciclo:"Gestión Administrativa"},
+  {centro:"IES Las Lagunas", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+  {centro:"IES Las Lagunas", nivel:"GS",  familia:"Electricidad y Electrónica", ciclo:"Sistemas Electrotécnicos y Automatizados"},
+
+  // IES MARE NOSTRUM TORREVIEJA — Torrevieja
+  {centro:"IES Mare Nostrum Torrevieja", nivel:"FPB", familia:"Hostelería y Turismo", ciclo:"Cocina y Restauración"},
+  {centro:"IES Mare Nostrum Torrevieja", nivel:"GM",  familia:"Hostelería y Turismo", ciclo:"Cocina y Gastronomía"},
+  {centro:"IES Mare Nostrum Torrevieja", nivel:"GM",  familia:"Hostelería y Turismo", ciclo:"Servicios en Restauración"},
+  {centro:"IES Mare Nostrum Torrevieja", nivel:"GS",  familia:"Hostelería y Turismo", ciclo:"Gestión de Alojamientos Turísticos"},
+  {centro:"IES Mare Nostrum Torrevieja", nivel:"GM",  familia:"Imagen Personal", ciclo:"Estética y Belleza"},
+
+  // IES MEDITERRÁNEO TORREVIEJA — Torrevieja
+  {centro:"IES Mediterráneo Torrevieja", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Mediterráneo Torrevieja", nivel:"GS",  familia:"Administración y Gestión", ciclo:"Administración y Finanzas"},
+  {centro:"IES Mediterráneo Torrevieja", nivel:"GM",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Atención a Personas en Situación de Dependencia"},
+  {centro:"IES Mediterráneo Torrevieja", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},
+
+  // IES SANTIAGO GRISOLIA — Callosa de Segura
+  {centro:"IES Santiago Grisolia", nivel:"FPB", familia:"Administración y Gestión", ciclo:"Servicios Administrativos"},
+  {centro:"IES Santiago Grisolia", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Santiago Grisolia", nivel:"GM",  familia:"Sanidad",               ciclo:"Cuidados Auxiliares de Enfermería"},
+
+  // IES AZUD DE ALFEITAMÍ — Almoradí
+  {centro:"IES Azud de Alfeitamí", nivel:"FPB", familia:"Administración y Gestión", ciclo:"Servicios Administrativos"},
+  {centro:"IES Azud de Alfeitamí", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"IES Azud de Alfeitamí", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Ciberseguridad en Entornos de las TIC"},
+  {centro:"IES Azud de Alfeitamí", nivel:"GM",  familia:"Electricidad y Electrónica", ciclo:"Instalaciones Eléctricas y Automáticas"},
+
+  // EFA EL CAMPICO — Jacarilla
+  {centro:"EFA El Campico", nivel:"FPB", familia:"Agraria",                    ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"EFA El Campico", nivel:"GM",  familia:"Agraria",                    ciclo:"Jardinería y Floristería"},
+  {centro:"EFA El Campico", nivel:"GM",  familia:"Agraria",                    ciclo:"Aprovechamiento y Conservación del Medio Natural"},
+  {centro:"EFA El Campico", nivel:"GM",  familia:"Informática y Comunicaciones", ciclo:"Sistemas Microinformáticos y Redes"},
+  {centro:"EFA El Campico", nivel:"GS",  familia:"Agraria",                    ciclo:"Gestión Forestal y del Medio Natural"},
+  {centro:"EFA El Campico", nivel:"GS",  familia:"Informática y Comunicaciones", ciclo:"Desarrollo de Aplicaciones Web"},
+  {centro:"EFA El Campico", nivel:"GS",  familia:"Administración y Gestión",   ciclo:"Administración y Finanzas"},
+  {centro:"EFA El Campico", nivel:"GS",  familia:"Comercio y Márketing",       ciclo:"Marketing y Publicidad"},
+
+  // IES PACO RUIZ — Bigastro
+  {centro:"IES Paco Ruiz", nivel:"FPB", familia:"Agraria",                     ciclo:"Agro-jardinería y Composiciones Florales"},
+  {centro:"IES Paco Ruiz", nivel:"GM",  familia:"Administración y Gestión",    ciclo:"Gestión Administrativa"},
+
+  // COLEGIO JESÚS MARÍA ORIHUELA — Orihuela (privat concertat)
+  {centro:"Colegio Jesús María Orihuela", nivel:"GM",  familia:"Sanidad",      ciclo:"Cuidados Auxiliares de Enfermería"},
+  {centro:"Colegio Jesús María Orihuela", nivel:"GM",  familia:"Administración y Gestión", ciclo:"Gestión Administrativa"},
+  {centro:"Colegio Jesús María Orihuela", nivel:"GS",  familia:"Servicios Socioculturales y a la Comunidad", ciclo:"Educación Infantil"},

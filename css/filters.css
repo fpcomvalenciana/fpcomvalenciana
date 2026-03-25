@@ -16,3 +16,48 @@
 .btn-reset:hover { border-color:var(--pub-color); color:var(--pub-color); }
 .result-count { font-size:.82rem; color:var(--muted); margin-left:auto; }
 .result-count strong { color:var(--text); font-weight:600; }
+
+/* ── COMARCA FILTER ────────────────────────────────────────── */
+.filter-group--comarca select {
+  border: 2px solid var(--accent-yellow);
+  font-weight: 600;
+}
+
+/* ── COMARCA EMPTY STATE ───────────────────────────────────── */
+#comarca-empty-state {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  color: var(--muted);
+}
+.comarca-prompt-icon {
+  font-size: 3rem;
+  margin-bottom: .75rem;
+}
+#comarca-prompt-text {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+.comarca-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.comarca-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.comarca-stat span {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.comarca-stat small {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+}

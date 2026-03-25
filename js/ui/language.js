@@ -68,8 +68,20 @@ export function applyUILang() {
 
   const fgFam = document.getElementById('fg-familia');
   const fgCic = document.getElementById('fg-ciclo');
+  const fgCen = document.getElementById('fg-centro');
+  const fgTip = document.getElementById('fg-tipologia');
   if (fgFam) fgFam.querySelector('label').textContent = l.lblFamilia ?? '';
   if (fgCic) fgCic.querySelector('label').textContent = l.lblCicle ?? '';
+  if (fgCen) fgCen.querySelector('label').textContent = l.lblCentre ?? '';
+  if (fgTip) fgTip.querySelector('label').textContent = l.lblTipologia ?? '';
+
+  // Opciones del select tipología
+  const fTip = document.getElementById('f-tipologia');
+  if (fTip && fTip.options.length >= 3) {
+    fTip.options[0].text = l.allTipologies ?? '';
+    fTip.options[1].text = l.tipPublico ?? '';
+    fTip.options[2].text = l.tipPrivado ?? '';
+  }
 
   document.querySelector('#f-municipio')?.closest('.filter-group')
     ?.querySelector('label')?.textContent === undefined ||
@@ -95,6 +107,12 @@ export function applyUILang() {
     if (fcp) fcp.textContent = l.footerCopy ?? '';
   }
 
+  // Label comarca
+  const lblComarca = document.getElementById('lbl-comarca');
+  if (lblComarca) lblComarca.textContent = l.lblComarca ?? 'Comarca';
+
   // Repoblar selects con traducción actualizada
+  // Importamos dinámicamente para evitar circular
+  import('../ui/filters.js').then(({ poblarComarcas }) => poblarComarcas());
   requestCascade();
 }
