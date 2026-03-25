@@ -1,0 +1,87 @@
+/* ── CARDS GRID ──────────────────────── */
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1rem; }
+
+/* card base */
+.card {
+  border-radius:var(--radius);
+  padding:1.2rem;
+  border:1px solid var(--border);
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+  transition:transform .2s, box-shadow .2s;
+  position:relative;
+  overflow:hidden;
+}
+.card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
+/* color strips */
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; }
+
+/* PUBLIC GS: naranja muy intenso/oscuro */
+.card.pub.gs { background: linear-gradient(160deg,#ffedd0,#fdb97a); border-color: rgba(234,88,12,0.65); }
+.card.pub.gs::before { background: #ea580c; }
+/* PRIVATE GS: índigo muy intenso */
+.card.priv.gs { background: linear-gradient(160deg,#c7d2fe,#a5b4fc); border-color: rgba(79,70,229,0.6); }
+.card.priv.gs::before { background: #4f46e5; }
+/* GS badge — azul marino, muy diferente del GM azul claro */
+.card-nivel.gs  { background:#e0e7ff; color:#3730a3; border:1.5px solid #4f46e5; }
+.ciclo-badge.gs { background:#e0e7ff; color:#3730a3; border:1px solid #4f46e5; }
+.info-nivel-badge.gs { background:#e0e7ff; color:#3730a3; border:1.5px solid #4f46e5; }
+.popup-nivel.gs { background:#e0e7ff; color:#3730a3; }
+/* EASDA — enseñanzas artísticas, color teal */
+.easda-badge { display:inline-block; font-size:.65rem; font-weight:700; background:#f0fdfa; color:#0f766e; border:1px solid #14b8a6; border-radius:6px; padding:.15rem .5rem; margin-top:.3rem; }
+.card.pub.fpb { background: linear-gradient(160deg,#fff7f0 60%,#ffe8d6); border-color: rgba(249,115,22,0.2); }
+.card.pub.fpb::before { background: linear-gradient(90deg,#fdba74,#fed7aa); }
+/* PUBLIC GM: naranja sólido */
+.card.pub.gm { background: linear-gradient(160deg,#fff0e0,#ffcfa0); border-color: rgba(249,115,22,0.55); }
+.card.pub.gm::before { background: var(--pub-color); }
+/* PRIVATE FPB: índigo muy tenue */
+.card.priv.fpb { background: linear-gradient(160deg,#f8f7ff 60%,#e8e8ff); border-color: rgba(99,102,241,0.18); }
+.card.priv.fpb::before { background: linear-gradient(90deg,#c7d2fe,#e0e7ff); }
+/* PRIVATE GM: índigo sólido */
+.card.priv.gm { background: linear-gradient(160deg,#eef0ff,#d4d8fc); border-color: rgba(99,102,241,0.5); }
+.card.priv.gm::before { background: var(--priv-color); }
+
+.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.7rem; gap:.5rem; }
+.card-nivel { font-family:'Unbounded',sans-serif; font-size:.58rem; font-weight:700; padding:.22rem .65rem; border-radius:100px; text-transform:uppercase; letter-spacing:.07em; white-space:nowrap; }
+.card-nivel.fpb { background:#fff8e1; color:#b45309; border:1.5px solid #f59e0b; }
+.card-nivel.gm  { background:#e0f0ff; color:#1565c0; border:1.5px solid #2196f3; }
+.card-privado-tag { font-size:.65rem; color:var(--muted); background:rgba(0,0,0,.05); padding:.15rem .45rem; border-radius:6px; }
+.card-centro { font-family:'Unbounded',sans-serif; font-size:.82rem; font-weight:700; color:var(--dark); margin-bottom:.25rem; line-height:1.3; }
+.card-municipio { font-size:.75rem; color:var(--muted); margin-bottom:.6rem; }
+.card-web { display:inline-block; margin-top:.3rem; font-size:.75rem; color:var(--pub-color); text-decoration:none; font-weight:500; }
+.card-web:hover { text-decoration:underline; }
+.card-contacto { font-size:.72rem; color:var(--muted); margin-top:.5rem; line-height:1.7; }
+.card-contacto a { color:inherit; text-decoration:none; }
+.card-contacto a:hover { text-decoration:underline; }
+
+/* vista centros: ciclos listados */
+.ciclos-list { margin-top:.7rem; padding-top:.7rem; border-top:1px solid rgba(0,0,0,.08); display:flex; flex-direction:column; gap:.4rem; }
+.ciclo-item { display:flex; align-items:center; gap:.5rem; font-size:.82rem; cursor:pointer; padding:.3rem .4rem; border-radius:8px; transition:background .15s; }
+.ciclo-item:hover { background:rgba(0,0,0,.06); }
+.ciclo-badge { font-size:.6rem; font-weight:700; padding:.15rem .5rem; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+.ciclo-badge.fpb { background:#fff8e1; color:#b45309; border:1px solid #f59e0b; }
+.ciclo-badge.gm  { background:#e0f0ff; color:#1565c0; border:1px solid #2196f3; }
+.ciclo-item .ciclo-arrow { margin-left:auto; font-size:.7rem; color:var(--muted); opacity:0; transition:opacity .15s; }
+.ciclo-item:hover .ciclo-arrow { opacity:1; }
+
+/* vista familias: solo info del centro */
+.fam-tag { display:inline-block; font-size:.68rem; padding:.15rem .5rem; border-radius:6px; background:rgba(0,0,0,.06); color:var(--muted); margin-bottom:.4rem; font-weight:500; }
+
+/* empty */
+.empty-state { text-align:center; padding:4rem 2rem; color:var(--muted); grid-column:1/-1; }
+.empty-state .emoji { font-size:3rem; margin-bottom:1rem; display:block; }
+
+/* leaflet popup */
+.leaflet-popup-content { font-family:'DM Sans',sans-serif; min-width:210px; }
+.popup-title { font-family:'Unbounded',sans-serif; font-size:.78rem; font-weight:700; margin-bottom:.5rem; color:var(--dark); }
+.popup-item { font-size:.76rem; padding:.3rem .4rem; border-bottom:1px solid #f0f0f0; cursor:pointer; border-radius:5px; transition:background .15s; }
+.popup-item:hover { background:#f5f5ff; }
+.popup-item:last-child { border-bottom:none; }
+.popup-nivel { font-size:.62rem; font-weight:700; padding:.1rem .35rem; border-radius:4px; margin-right:.3rem; }
+.popup-nivel.fpb { background:#fff8e1; color:#b45309; }
+.popup-nivel.gm  { background:#e0f0ff; color:#1565c0; }
+
+
+  .lang-toggle { display:flex; gap:.4rem; margin-top:1rem; }
+  .lang-btn { background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.25); border-radius:8px; color:white; font-family:'Unbounded',sans-serif; font-size:.65rem; font-weight:700; padding:.35rem .75rem; cursor:pointer; transition:all .2s; letter-spacing:.08em; }
+  .lang-btn.active { background:var(--pub-color); border-color:var(--pub-color); }
+  .lang-btn:hover:not(.active) { background:rgba(255,255,255,.2); }
