@@ -1,7 +1,6 @@
 import { t, tFam, tCicle, currentLang } from './language.js';
-import { fFamilia, fNivel, fCiclo } from './filters.js';
-import { irAGM, irAGS } from './render-cards.js';
-import { fpbAGm, gmAGs } from '../data/transitions.js';
+import { fFamilia, fNivel, fCiclo }     from './filters.js';
+import { fpbAGm, gmAGs }                from '../data/transitions.js';
 import { cicloInfo, familiaDescripcion, familiaEmoji } from '../data/cycles.js';
 import { cicleNomVal, famNomVal, cicleInfoVal, famDescVal } from '../data/translations.js';
 
@@ -46,11 +45,12 @@ export function updateInfoPanel(filtered) {
 
   statsPn.style.display = 'none';
 
-  const cicloActivo = safe(fCiclo()?.value);
-  const nivelActivo = safe(fNivel()?.value) || (filtered.length ? filtered[0].nivel : '');
-  const info        = cicloActivo ? tCicleInfo(cicloActivo) : {};
-  const descFamilia = tFamDesc(familiaActiva);
-  const descMostrar = cicloActivo ? (info.desc ?? descFamilia) : descFamilia;
+  const cicloActivo    = safe(fCiclo()?.value);
+  // Solo mostrar progresión si el nivel está explícitamente filtrado
+  const nivelActivo    = safe(fNivel()?.value);
+  const info           = cicloActivo ? tCicleInfo(cicloActivo) : {};
+  const descFamilia    = tFamDesc(familiaActiva);
+  const descMostrar    = cicloActivo ? (info.desc ?? descFamilia) : descFamilia;
   const salidasMostrar = cicloActivo ? (info.salidas ?? '') : '';
   const tituloMostrar  = cicloActivo || familiaActiva;
 
@@ -76,6 +76,7 @@ export function updateInfoPanel(filtered) {
   const gmTitle   = document.querySelector('#ip-gm .info-gm-title');
   const gmBtns    = document.getElementById('ip-gm-btns');
 
+  // Solo mostrar botones si nivel está explícitamente seleccionado
   if (nivelActivo === 'FPB' && fpbAGm[familiaActiva]) {
     gmBtns.innerHTML = fpbAGm[familiaActiva].map(c => mkBtn(familiaActiva, c, 'irAGM', '#22c55e')).join('');
     if (gmTitle) gmTitle.textContent = t('fpbToGm');
@@ -93,18 +94,19 @@ export function updateInfoPanel(filtered) {
 
 function mkBtn(familia, ciclo, fn, color) {
   const label = currentLang === 'val' ? (cicleNomVal[ciclo] ?? ciclo) : ciclo;
-  return `<button class="btn-gm" style="background:${color}" data-fn="${fn}"
-    data-familia="${familia.replace(/"/g,'&quot;')}"
-    data-ciclo="${ciclo.replace(/"/g,'&quot;')}">${label}</button>`;
+  return `<button class="btn-gm" style="background:${color}"
+    data-fn="${fn}"
+    data-familia="${familia.replace(/"/g, '&quot;')}"
+    data-ciclo="${ciclo.replace(/"/g, '&quot;')}">${label}</button>`;
 }
 
-// Delegación de eventos para botones FPB→GM / GM→GS
 export function initInfoPanel() {
   document.getElementById('info-panel')?.addEventListener('click', e => {
     const btn = e.target.closest('.btn-gm[data-fn]');
     if (!btn) return;
-    const { fn, familia, ciclo } = btn.dataset;
-    if (fn === 'irAGM') irAGM(familia, ciclo);
-    else if (fn === 'irAGS') irAGS(familia, ciclo);
+    // Usar evento para evitar import circular con render-cards
+    document.dispatchEvent(new CustomEvent('fp:goto-nivel', {
+      detail: { fn: btn.dataset.fn, familia: btn.dataset.familia, ciclo: btn.dataset.ciclo }
+    }));
   });
 }

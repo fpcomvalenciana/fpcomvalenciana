@@ -1,6 +1,11 @@
 import { datosEnriquecidos } from '../data/cycles.js';
 import { t, tFam, tCicle } from './language.js';
-import { updateView } from './render-cards.js';
+
+// Evitar dependencia circular con render-cards.js:
+// disparamos un evento personalizado que main.js conecta a updateView
+function requestUpdate() {
+  document.dispatchEvent(new CustomEvent('fp:update'));
+}
 
 const safe = (txt) => txt ?? '';
 
@@ -88,18 +93,18 @@ export function resetFilters() {
   ['f-municipio','f-nivel','f-familia','f-ciclo','f-centro','f-tipologia']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   actualizarFiltrosCascada();
-  updateView();
+  requestUpdate();
 }
 
 // ── Inicializar listeners ─────────────────────────────────────
 export function initFilters() {
   const on = (id, fn) => document.getElementById(id)?.addEventListener('change', fn);
 
-  on('f-municipio', () => { actualizarFiltrosCascada(); updateView(); });
-  on('f-nivel',     () => { actualizarFiltrosCascada(); updateView(); });
-  on('f-familia',   () => { actualizarFiltrosCascada(); updateView(); });
-  on('f-ciclo',     updateView);
-  on('f-centro',    updateView);
-  on('f-tipologia', updateView);
+  on('f-municipio', () => { actualizarFiltrosCascada(); requestUpdate(); });
+  on('f-nivel',     () => { actualizarFiltrosCascada(); requestUpdate(); });
+  on('f-familia',   () => { actualizarFiltrosCascada(); requestUpdate(); });
+  on('f-ciclo',     requestUpdate);
+  on('f-centro',    requestUpdate);
+  on('f-tipologia', requestUpdate);
   document.getElementById('btn-reset')?.addEventListener('click', resetFilters);
 }

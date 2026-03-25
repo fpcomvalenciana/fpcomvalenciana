@@ -1,8 +1,7 @@
-import { t } from './language.js';
-import { tCicle, currentLang } from './language.js';
+import { t, tCicle } from './language.js';
 import { centrosInfo } from '../data/centres.js';
-import { fNivel, fFamilia, fCiclo, actualizarFiltrosCascada } from './filters.js';
-import { setTab, updateView, irAGM, irAGS } from './render-cards.js';
+
+const safe = (txt) => txt ?? '';
 
 let map, markersLayer;
 
@@ -38,15 +37,21 @@ export function renderMap(data) {
     });
 
     const ciclosHtml = info.ciclos.map(c =>
-      `<div class="popup-item" data-familia="${c.familia}" data-ciclo="${c.ciclo}" data-nivel="${c.nivel}">
-        <span class="popup-nivel ${c.nivel.toLowerCase()}">${c.nivel === 'FPB' ? t('fpbLabel') : c.nivel === 'GM' ? t('gmLabel') : t('gsLabel')}</span>
-        ${tCicle(c.ciclo)} <span style="float:right;color:#aaa">→</span>
+      `<div class="popup-item"
+            data-familia="${c.familia}" data-ciclo="${c.ciclo}" data-nivel="${c.nivel}">
+        <span class="popup-nivel ${c.nivel.toLowerCase()}">${
+          c.nivel === 'FPB' ? t('fpbLabel') : c.nivel === 'GM' ? t('gmLabel') : t('gsLabel')
+        }</span>
+        ${tCicle(c.ciclo)}
+        <span style="float:right;color:#aaa">→</span>
       </div>`
     ).join('');
 
     const popup = L.popup({ maxWidth: 280 }).setContent(
-      `<div class="popup-title">${nombre}</div>
-       <div style="font-size:.7rem;color:#999;margin-bottom:.4rem">${info.municipio ?? ''} ${info.privado ? '· Privado' : ''}</div>
+      `<div class="popup-title">${safe(nombre)}</div>
+       <div style="font-size:.7rem;color:#999;margin-bottom:.4rem">
+         ${safe(info.municipio)} ${info.privado ? '· Privado' : ''}
+       </div>
        ${ciclosHtml}`
     );
 
@@ -55,17 +60,16 @@ export function renderMap(data) {
       document.querySelectorAll('.popup-item').forEach(el => {
         el.addEventListener('click', () => {
           marker.closePopup();
-          setTab('familias', document.getElementById('tab-familias'));
-          fNivel().value   = el.dataset.nivel;
-          fFamilia().value = el.dataset.familia;
-          actualizarFiltrosCascada();
-          setTimeout(() => { fCiclo().value = el.dataset.ciclo; updateView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60);
+          // Usar eventos para evitar imports circulares
+          document.dispatchEvent(new CustomEvent('fp:goto-ciclo', {
+            detail: { familia: el.dataset.familia, ciclo: el.dataset.ciclo, nivel: el.dataset.nivel }
+          }));
         });
       });
     });
   });
 
-  if (bounds.length === 1) map.setView(bounds[0], 14, { animate: true });
-  else if (bounds.length > 1) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14, animate: true });
-  else map.setView([38.385, -0.490], 11, { animate: true });
+  if (bounds.length === 1)      map.setView(bounds[0], 14, { animate: true });
+  else if (bounds.length > 1)   map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14, animate: true });
+  else                          map.setView([38.385, -0.490], 11, { animate: true });
 }

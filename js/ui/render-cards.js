@@ -1,9 +1,10 @@
-import { getFiltered } from './filters.js';
+import { getFiltered }    from './filters.js';
 import { updateInfoPanel } from './render-info.js';
-import { renderMap } from './render-map.js';
-import { t } from './language.js';
-import { centrosInfo } from '../data/centres.js';
-import { familiaEmoji } from '../data/cycles.js';
+import { initMap, renderMap } from './render-map.js';
+import { t, tFam, tCicle } from './language.js';
+import { centrosInfo }    from '../data/centres.js';
+import { familiaEmoji }   from '../data/cycles.js';
+import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo } from './filters.js';
 
 const safe = (txt) => txt ?? '';
 
@@ -13,7 +14,7 @@ export let currentTab = 'familias';
 export function updateView() {
   const data = getFiltered();
   renderStats(data);
-  renderPanels(data);
+  updateInfoPanel(data);
   renderCards(data);
 }
 
@@ -25,10 +26,6 @@ function renderStats(data) {
     (count !== 1 ? safe(t('cicle_s')) : safe(t('cicle_1')));
 }
 
-function renderPanels(data) {
-  updateInfoPanel(data);
-}
-
 function renderCards(data) {
   if (currentTab === 'familias')     renderFamilias(data);
   else if (currentTab === 'centros') renderCentros(data);
@@ -36,8 +33,6 @@ function renderCards(data) {
 }
 
 // ── Vista familias ────────────────────────────────────────────
-import { tFam, tCicle } from './language.js';
-
 function renderFamilias(data) {
   const grid = document.getElementById('cards-grid');
   if (!grid) return;
@@ -79,13 +74,16 @@ function renderCentros(data) {
   });
 
   grid.innerHTML = Object.entries(byCentro).map(([nombre, { info, ciclos }]) => {
-    const pub       = info.privado !== true;
-    const tieneGS   = ciclos.some(c => c.nivel === 'GS');
-    const tieneGM   = ciclos.some(c => c.nivel === 'GM');
-    const niv       = tieneGS ? 'gs' : tieneGM ? 'gm' : 'fpb';
-    const esEASDA   = nombre === 'EASDA';
+    const pub     = info.privado !== true;
+    const tieneGS = ciclos.some(c => c.nivel === 'GS');
+    const tieneGM = ciclos.some(c => c.nivel === 'GM');
+    const niv     = tieneGS ? 'gs' : tieneGM ? 'gm' : 'fpb';
+    const esEASDA = nombre === 'EASDA';
     const ciclosHtml = ciclos.map(c => `
-      <div class="ciclo-item" data-familia="${c.familia.replace(/"/g,'&quot;')}" data-ciclo="${c.ciclo.replace(/"/g,'&quot;')}" data-nivel="${c.nivel}">
+      <div class="ciclo-item"
+           data-familia="${c.familia.replace(/"/g,'&quot;')}"
+           data-ciclo="${c.ciclo.replace(/"/g,'&quot;')}"
+           data-nivel="${c.nivel}">
         <span class="ciclo-badge ${c.nivel.toLowerCase()}">${c.nivel}</span>
         <span>${tCicle(c.ciclo)}</span>
         <span class="ciclo-arrow">→</span>
@@ -107,40 +105,14 @@ function renderCentros(data) {
     </div>`;
   }).join('');
 
-  // Delegación: click en ciclo dentro de tarjeta de centro
+  // Delegación: click en ciclo → ir a vista familias
   grid.addEventListener('click', e => {
     const item = e.target.closest('.ciclo-item[data-familia]');
     if (!item) return;
-    filtrarDesdeCentro(item.dataset.familia, item.dataset.ciclo, item.dataset.nivel);
-  }, { once: false });
-}
-
-// ── Navegación desde centro hacia familias ────────────────────
-import { fNivel, fFamilia, fCiclo, actualizarFiltrosCascada } from './filters.js';
-
-function filtrarDesdeCentro(familia, ciclo, nivel) {
-  setTab('familias', document.getElementById('tab-familias'));
-  mostrarFiltrosFamilias();
-  fNivel().value = nivel;
-  fFamilia().value = familia;
-  actualizarFiltrosCascada();
-  setTimeout(() => { fCiclo().value = ciclo; updateView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60);
-}
-
-export function irAGM(familia, ciclo) {
-  setTab('familias', document.getElementById('tab-familias'));
-  mostrarFiltrosFamilias();
-  fNivel().value = 'GM'; fFamilia().value = familia;
-  actualizarFiltrosCascada();
-  setTimeout(() => { fCiclo().value = ciclo; updateView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60);
-}
-
-export function irAGS(familia, ciclo) {
-  setTab('familias', document.getElementById('tab-familias'));
-  mostrarFiltrosFamilias();
-  fNivel().value = 'GS'; fFamilia().value = familia;
-  actualizarFiltrosCascada();
-  setTimeout(() => { fCiclo().value = ciclo; updateView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60);
+    document.dispatchEvent(new CustomEvent('fp:goto-ciclo', {
+      detail: { familia: item.dataset.familia, ciclo: item.dataset.ciclo, nivel: item.dataset.nivel }
+    }));
+  });
 }
 
 // ── Tabs ──────────────────────────────────────────────────────
@@ -150,36 +122,24 @@ export function setTab(tab, btn) {
   btn?.classList.add('active');
 
   const modoCentros = tab === 'centros';
-  document.getElementById('fg-familia').style.display  = modoCentros ? 'none' : '';
-  document.getElementById('fg-ciclo').style.display    = modoCentros ? 'none' : '';
-  document.getElementById('fg-centro').style.display   = modoCentros ? '' : 'none';
-  document.getElementById('fg-tipologia').style.display= modoCentros ? '' : 'none';
+  document.getElementById('fg-familia').style.display   = modoCentros ? 'none' : '';
+  document.getElementById('fg-ciclo').style.display     = modoCentros ? 'none' : '';
+  document.getElementById('fg-centro').style.display    = modoCentros ? '' : 'none';
+  document.getElementById('fg-tipologia').style.display = modoCentros ? '' : 'none';
 
   const mapC   = document.getElementById('map-container');
   const cardsC = document.getElementById('cards-container');
   if (tab === 'mapa') {
-    mapC.style.display   = 'block';
-    cardsC.style.display = 'none';
-    import('./render-map.js').then(({ initMap, renderMap }) => {
-      initMap();
-      renderMap(getFiltered());
-    });
+    mapC.style.display = 'block'; cardsC.style.display = 'none';
+    initMap(); renderMap(getFiltered());
   } else {
-    mapC.style.display   = 'none';
-    cardsC.style.display = 'block';
+    mapC.style.display = 'none'; cardsC.style.display = 'block';
     updateView();
   }
 }
 
-function mostrarFiltrosFamilias() {
-  document.getElementById('fg-familia').style.display  = '';
-  document.getElementById('fg-ciclo').style.display    = '';
-  document.getElementById('fg-centro').style.display   = 'none';
-  document.getElementById('fg-tipologia').style.display= 'none';
-}
-
 // ── Helpers ───────────────────────────────────────────────────
-export function emptyState() {
+function emptyState() {
   return '<div class="empty-state"><span class="emoji">🔍</span><p>' +
     'No hay ciclos que coincidan con los filtros.<br>Prueba a cambiar algún filtro.</p></div>';
 }

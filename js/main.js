@@ -1,35 +1,54 @@
 // ============================================================
-// MAIN — punto de entrada de la aplicación
+// MAIN — orquestador principal
 // ============================================================
-import { applyUILang, setLang }        from './ui/language.js';
-import { initFilters, actualizarFiltrosCascada } from './ui/filters.js';
-import { updateView, setTab }          from './ui/render-cards.js';
-import { initInfoPanel }               from './ui/render-info.js';
+import { applyUILang, setLang }                 from './ui/language.js';
+import { initFilters, actualizarFiltrosCascada,
+         fNivel, fFamilia, fCiclo }              from './ui/filters.js';
+import { updateView, setTab, currentTab }        from './ui/render-cards.js';
+import { initInfoPanel }                         from './ui/render-info.js';
+
+function gotoFamiliaConCiclo({ familia, ciclo, nivel }) {
+  setTab('familias', document.getElementById('tab-familias'));
+  // Mostrar filtros de familia/ciclo
+  document.getElementById('fg-familia').style.display   = '';
+  document.getElementById('fg-ciclo').style.display     = '';
+  document.getElementById('fg-centro').style.display    = 'none';
+  document.getElementById('fg-tipologia').style.display = 'none';
+  if (nivel) fNivel().value = nivel;
+  fFamilia().value = familia;
+  actualizarFiltrosCascada();
+  setTimeout(() => { fCiclo().value = ciclo; updateView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60);
+}
 
 function init() {
-  // Registrar listeners de filtros y btn-reset
+  // ── Eventos personalizados (evitan dependencias circulares) ──
+  document.addEventListener('fp:update',   updateView);
+  document.addEventListener('fp:cascade',  actualizarFiltrosCascada);
+  document.addEventListener('fp:goto-ciclo',  e => gotoFamiliaConCiclo(e.detail));
+  document.addEventListener('fp:goto-nivel',  e => {
+    const { fn, familia, ciclo } = e.detail;
+    gotoFamiliaConCiclo({ familia, ciclo, nivel: fn === 'irAGM' ? 'GM' : 'GS' });
+  });
+
+  // ── Filtros ───────────────────────────────────────────────────
   initFilters();
 
-  // Registrar delegación del info-panel (FPB→GM / GM→GS)
+  // ── Info panel (botones FPB→GM / GM→GS) ──────────────────────
   initInfoPanel();
 
-  // Registrar tabs
-  document.getElementById('tab-familias')?.addEventListener('click', e =>
-    setTab('familias', e.currentTarget));
-  document.getElementById('tab-centros')?.addEventListener('click', e =>
-    setTab('centros', e.currentTarget));
-  document.getElementById('tab-mapa')?.addEventListener('click', e =>
-    setTab('mapa', e.currentTarget));
+  // ── Tabs ──────────────────────────────────────────────────────
+  document.getElementById('tab-familias')?.addEventListener('click', e => setTab('familias', e.currentTarget));
+  document.getElementById('tab-centros')?.addEventListener('click',  e => setTab('centros',  e.currentTarget));
+  document.getElementById('tab-mapa')?.addEventListener('click',     e => setTab('mapa',     e.currentTarget));
 
-  // Registrar cambio de idioma
-  document.getElementById('btn-es')?.addEventListener('click', () => setLang('es'));
+  // ── Idioma ────────────────────────────────────────────────────
+  document.getElementById('btn-es')?.addEventListener('click',  () => setLang('es'));
   document.getElementById('btn-val')?.addEventListener('click', () => setLang('val'));
 
-  // Primer render
+  // ── Primer render ─────────────────────────────────────────────
   actualizarFiltrosCascada();
   updateView();
   applyUILang();
 }
 
-// Esperar a que el DOM esté listo (el script se carga con type=module, que es diferido por defecto)
 document.addEventListener('DOMContentLoaded', init);

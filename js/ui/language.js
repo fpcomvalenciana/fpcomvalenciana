@@ -1,6 +1,8 @@
 import { uiEs, uiVal, famNomVal, cicleNomVal } from '../data/translations.js';
-import { actualizarFiltrosCascada } from './filters.js';
-import { updateView } from './render-cards.js';
+
+// Usamos eventos para evitar dependencias circulares
+function requestUpdate() { document.dispatchEvent(new CustomEvent('fp:update')); }
+function requestCascade() { document.dispatchEvent(new CustomEvent('fp:cascade')); }
 
 export let currentLang = 'es';
 
@@ -19,7 +21,7 @@ export function setLang(lang) {
   document.getElementById('btn-es').classList.toggle('active', lang === 'es');
   document.getElementById('btn-val').classList.toggle('active', lang === 'val');
   applyUILang();
-  updateView();
+  requestUpdate();
 }
 
 export function applyUILang() {
@@ -94,5 +96,5 @@ export function applyUILang() {
   }
 
   // Repoblar selects con traducción actualizada
-  actualizarFiltrosCascada();
+  requestCascade();
 }
