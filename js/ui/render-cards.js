@@ -168,6 +168,10 @@ function renderCentros(data) {
     const tieneGM = ciclos.some(c => c.nivel === 'GM');
     const niv     = tieneGS ? 'gs' : tieneGM ? 'gm' : 'fpb';
     const esEASDA = nombre === 'EASDA';
+    const nivelOrd = { FPB: 0, GM: 1, GS: 2 };
+    ciclos.sort((a, b) =>
+      (nivelOrd[a.nivel] - nivelOrd[b.nivel]) || a.ciclo.localeCompare(b.ciclo, 'es')
+    );
     const ciclosHtml = ciclos.map(c => `
       <div class="ciclo-item"
            data-familia="${c.familia.replace(/"/g,'&quot;')}"
