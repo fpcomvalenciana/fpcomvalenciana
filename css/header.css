@@ -26,3 +26,17 @@ h1 span { color:var(--accent-yellow); }
 .stat { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:.55rem .9rem; text-align:center; }
 .stat-num { font-family:'Unbounded',sans-serif; font-size:1.3rem; color:var(--accent-yellow); font-weight:700; display:block; }
 .stat-label { font-size:.65rem; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.1em; }
+
+/* ── LLEGENDA ─────────────────────────── */
+.legend { display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; margin-top:.9rem; }
+.legend-item { display:flex; align-items:center; gap:.35rem; font-size:.72rem; color:rgba(255,255,255,.7); }
+.legend-item--note { color:rgba(255,255,255,.5); font-size:.68rem; }
+.legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.legend-dot.pub  { background:var(--pub-color); }
+.legend-dot.priv { background:var(--priv-color); }
+.legend { display:flex; gap:1.2rem; margin-top:1rem; flex-wrap:wrap; align-items:center; }
+.legend-item { display:flex; align-items:center; gap:.4rem; font-size:.75rem; color:rgba(255,255,255,.65); }
+.legend-item--note { color:rgba(255,255,255,.45); font-size:.7rem; }
+.legend-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+.legend-dot.pub  { background:var(--pub-color); }
+.legend-dot.priv { background:var(--priv-color); }

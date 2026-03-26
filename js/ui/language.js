@@ -99,19 +99,15 @@ export function applyUILang() {
 
   const ft = document.getElementById('footer');
   if (ft) {
-    const ftitles = ft.querySelectorAll('div[style*="Unbounded"]');
-    if (ftitles.length >= 3) {
-      ftitles[0].textContent = l.footerLegal ?? '';
-      ftitles[1].textContent = l.footerPriv ?? '';
-      ftitles[2].textContent = l.footerCookies ?? '';
-    }
-    const fps = ft.querySelectorAll('p');
-    if (fps.length >= 2) {
-      fps[0].innerHTML = (l.footerResponsable ?? '') + '<br>Email: fpcomvalenciana@gmail.com<br>' + (l.footerDesc ?? '');
-      fps[1].innerHTML = (l.footerPrivDesc ?? '') + '<br>' + (l.footerContacte ?? '') + ' fpcomvalenciana@gmail.com';
-    }
-    const fcp = ft.querySelector('span[style*=".35"]');
-    if (fcp) fcp.textContent = l.footerCopy ?? '';
+    const setT = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+    const setH = (id, val) => { const el = document.getElementById(id); if (el && val) el.innerHTML = val; };
+    setT('footer-lbl-legal',    l.footerLegal ?? '');
+    setT('footer-lbl-priv',     l.footerPriv ?? '');
+    setT('footer-lbl-cook',     l.footerCookies ?? '');
+    setH('footer-txt-legal',    (l.footerResponsable ? l.footerResponsable + '<br>' : '') + 'Email: fpcomvalenciana@gmail.com<br>' + (l.footerDesc ?? ''));
+    setH('footer-txt-priv',     (l.footerPrivDesc ?? '') + '<br>' + (l.footerContacte ?? '') + ' fpcomvalenciana@gmail.com');
+    setH('footer-txt-cook',     (l.footerCookiesDesc ?? '') + '<br><a href="https://policies.google.com/privacy" target="_blank" style="color:#fbbf24;text-decoration:none;" id="footer-lnk-cook">' + (l.footerMes ?? 'Más información →') + '</a>');
+    setT('footer-copy',         l.footerCopy ?? '');
   }
 
   // Label comarca

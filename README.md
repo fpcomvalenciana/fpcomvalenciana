@@ -73,7 +73,7 @@ fp-alacanti/
 
 ## Responsable
 
-**Emili Peiró** · IES Gaia (Sant Vicent del Raspeig)
+**Emili Peiró**
 ✉️ fpcomvalenciana@gmail.com
 
 ---

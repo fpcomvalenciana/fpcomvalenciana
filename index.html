@@ -56,9 +56,9 @@
       <button class="lang-btn" id="btn-val">VAL</button>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot pub"></div> Centro público</div>
-      <div class="legend-item"><div class="legend-dot priv"></div> Centro privado</div>
-      <div class="legend-item" style="opacity:.7">· Más suave = FPB &nbsp;· Más intenso = GM &nbsp;· Más sólido = GS</div>
+      <div class="legend-item"><div class="legend-dot pub"></div><span id="leg-pub">Centre públic</span></div>
+      <div class="legend-item"><div class="legend-dot priv"></div><span id="leg-priv">Centre privat/concertat</span></div>
+      <div class="legend-item legend-item--note" id="leg-note">· Més suau = FPB &nbsp;· Més intens = GM &nbsp;· Més sòlid = GS</div>
     </div>
   </div>
 </header>
@@ -68,7 +68,14 @@
   <!-- FILTROS -->
   <div class="filters-section">
     <div class="filters-title">🔍 Filtrar oferta</div>
-    <!-- FILA 1: Provincia · Comarca · Municipio -->
+    <!-- COMARCA (oculta, codi intacte) -->
+    <div class="filter-group" id="fg-comarca" style="display:none">
+      <label id="lbl-comarca">Comarca</label>
+      <select id="f-comarca">
+        <option value="">Selecciona una comarca…</option>
+      </select>
+    </div>
+    <!-- FILA 1: Provincia · Municipis · Família professional -->
     <div class="filters-grid filters-row-1">
       <div class="filter-group filter-group--provincia">
         <label id="lbl-provincia">Provincia</label>
@@ -79,20 +86,18 @@
           <option value="Valencia">Valencia / València</option>
         </select>
       </div>
-      <div class="filter-group filter-group--comarca">
-        <label id="lbl-comarca">Comarca</label>
-        <select id="f-comarca">
-          <option value="">Selecciona una comarca…</option>
-        </select>
-      </div>
       <div class="filter-group" id="fg-municipio">
         <label id="lbl-municipio">Municipio</label>
         <select id="f-municipio">
           <option value="">Todos los municipios</option>
         </select>
       </div>
+      <div class="filter-group" id="fg-familia">
+        <label id="lbl-familia">Familia profesional</label>
+        <select id="f-familia"></select>
+      </div>
     </div>
-    <!-- FILA 2: Nivel · Familia/Centro · Ciclo/Tipología -->
+    <!-- FILA 2: Nivel · Cicle · Centre · Tipologia -->
     <div class="filters-grid filters-row-2">
       <div class="filter-group">
         <label id="lbl-nivel">Nivel</label>
@@ -103,22 +108,16 @@
           <option value="GS">Grado Superior (GS)</option>
         </select>
       </div>
-      <!-- Filtros modo FAMILIAS (por defecto visibles) -->
-      <div class="filter-group" id="fg-familia">
-        <label>Familia profesional</label>
-        <select id="f-familia"></select>
-      </div>
       <div class="filter-group" id="fg-ciclo">
-        <label>Ciclo concreto</label>
+        <label id="lbl-ciclo">Ciclo concreto</label>
         <select id="f-ciclo"><option value="">Todos los ciclos</option></select>
       </div>
-      <!-- Filtros modo CENTROS (ocultos por defecto) -->
-      <div class="filter-group" id="fg-centro" style="display:none">
-        <label>Centro educativo</label>
+      <div class="filter-group" id="fg-centro">
+        <label id="lbl-centro">Centro educativo</label>
         <select id="f-centro"></select>
       </div>
-      <div class="filter-group" id="fg-tipologia" style="display:none">
-        <label>Tipología de centro</label>
+      <div class="filter-group" id="fg-tipologia">
+        <label id="lbl-tipologia">Tipología de centro</label>
         <select id="f-tipologia">
           <option value="">Todos</option>
           <option value="publico">Público</option>
@@ -134,8 +133,8 @@
 
   <!-- TABS -->
   <div class="tabs">
-    <button class="tab-btn active" id="tab-familias">🏷 Filtrado por familias</button>
-    <button class="tab-btn" id="tab-centros">🏫 Filtrado por centros</button>
+    <button class="tab-btn active" id="tab-centros">🏫 Filtrado por centros</button>
+    <button class="tab-btn" id="tab-familias">🏷 Filtrado por familias</button>
     <button class="tab-btn" id="tab-mapa">🗺 Mapa</button>
   </div>
 
@@ -201,31 +200,29 @@
   <div style="max-width:1100px;margin:auto;">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:1.8rem;">
       <div>
-        <div style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Aviso Legal</div>
-        <p style="font-size:.78rem;line-height:1.7;">
-          Responsable: Emili Peiró<br>
+        <div id="footer-lbl-legal" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Avís Legal</div>
+        <p id="footer-txt-legal" style="font-size:.78rem;line-height:1.7;">
           Email: fpcomvalenciana@gmail.com<br>
-          Este sitio ofrece información orientativa sobre Formación Profesional en la Comunitat Valenciana. La información puede variar; consulta siempre las fuentes oficiales.
+          Este lloc ofereix informació orientativa sobre la Formació Professional a la Comunitat Valenciana. La informació pot variar; consulta sempre les fonts oficials.
         </p>
       </div>
       <div>
-        <div style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Privacidad</div>
-        <p style="font-size:.78rem;line-height:1.7;">
-          No se recogen datos personales directamente. Se pueden usar cookies de terceros para mejorar la experiencia y mostrar anuncios.<br>
-          Contacto: fpcomvalenciana@gmail.com
+        <div id="footer-lbl-priv" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Privacitat</div>
+        <p id="footer-txt-priv" style="font-size:.78rem;line-height:1.7;">
+          No es recullen dades personals directament. Es poden usar cookies de tercers per millorar l'experiència i mostrar anuncis.<br>
+          Contacte: fpcomvalenciana@gmail.com
         </p>
       </div>
       <div>
-        <div style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Cookies</div>
-        <p style="font-size:.78rem;line-height:1.7;">
-          Este sitio utiliza cookies para mejorar la experiencia y, en su caso, mostrar anuncios. Puedes configurar tu navegador para rechazarlas.<br>
-          <a href="https://policies.google.com/privacy" target="_blank" style="color:#fbbf24;text-decoration:none;">Más información →</a>
+        <div id="footer-lbl-cook" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Cookies</div>
+        <p id="footer-txt-cook" style="font-size:.78rem;line-height:1.7;">
+          Este lloc utilitza cookies per millorar l'experiència i, si escau, mostrar anuncis. Pots configurar el teu navegador per rebutjar-les.<br>
+          <a href="https://policies.google.com/privacy" target="_blank" style="color:#fbbf24;text-decoration:none;" id="footer-lnk-cook">Més informació →</a>
         </p>
       </div>
     </div>
-    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.2rem;display:flex;justify-content:center;align-items:center;">
       <span id="footer-copy" style="font-size:.72rem;color:rgba(255,255,255,0.45);">© 2026 FP Comunitat Valenciana · Informació orientativa, sense caràcter oficial</span>
-      <span style="font-size:.72rem;color:rgba(255,255,255,0.35);" id="footer-resp">Responsable: Emili Peiró</span>
     </div>
   </div>
 </footer>

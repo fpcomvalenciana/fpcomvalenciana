@@ -1,4 +1,4 @@
-import { getFiltered, datosEnriquecidos }    from './filters.js';
+import { getFiltered, datosEnriquecidos, fComarca, fProvincia, fFamilia } from './filters.js';
 import { updateInfoPanel } from './render-info.js';
 import { initMap, renderMap } from './render-map.js';
 import { t, tFam, tCicle, tSalidas, currentLang } from './language.js';
@@ -13,12 +13,18 @@ export let currentTab = 'familias';
 
 // ── Punto de entrada central ──────────────────────────────────
 export function updateView() {
-  const comarcaVal  = fComarca()?.value  ?? '';
+  const comarcaVal   = fComarca()?.value   ?? '';
   const provinciaVal = fProvincia()?.value ?? '';
-  const hayFiltro = comarcaVal || provinciaVal;
+  const familiaVal   = fFamilia()?.value   ?? '';
+  const hayFiltro = comarcaVal || provinciaVal || familiaVal;
   actualizarTitulo(comarcaVal, provinciaVal);
   actualizarEstadoVacio(hayFiltro);
-  if (!hayFiltro) return; // web en blanco sin comarca
+  if (!hayFiltro) {
+    // Netejar result-label quan es torna a l'estat buit
+    const lbl = document.getElementById('result-label');
+    if (lbl) lbl.textContent = '';
+    return;
+  }
 
   const data = getFiltered();
   renderStats(data, comarcaVal);
@@ -78,6 +84,9 @@ function actualizarEstadoVacio(hayFiltro) {
     if (infoEl)   infoEl.classList.remove('visible');
     if (cardsEl)  cardsEl.style.display  = 'none';
     if (mapEl)    mapEl.style.display    = 'none';
+    // Netejar result-label
+    const lbl = document.getElementById('result-label');
+    if (lbl) lbl.textContent = '';
     // Actualizar contadores globales
     const totalCentres = new Set(datosEnriquecidos.map(d => d.centro)).size;
     const totalCicles  = datosEnriquecidos.length;
@@ -97,8 +106,8 @@ function actualizarEstadoVacio(hayFiltro) {
     if (elLblF)  elLblF.textContent  = t('statFamiliesPro') || 'familias';
     const prompt = document.getElementById('comarca-prompt-text');
     if (prompt) prompt.textContent = currentLang === 'val'
-      ? "Selecciona una província o una comarca per veure l'oferta d'FP"
-      : "Selecciona una provincia o una comarca para ver la oferta de FP";
+      ? "Selecciona una província o una família professional per veure l'oferta d'FP"
+      : "Selecciona una provincia o una familia profesional para ver la oferta de FP";
   } else {
     if (emptyEl)  emptyEl.style.display  = 'none';
     if (tabsEl)   tabsEl.style.display   = '';
@@ -127,7 +136,10 @@ function renderFamilias(data) {
   if (!grid) return;
   if (!data.length) { grid.innerHTML = emptyState(); return; }
 
-  grid.innerHTML = data.map(d => {
+  // Ordenació alfabètica per centre
+  const sorted = [...data].sort((a, b) => a.centro.localeCompare(b.centro, 'es'));
+
+  grid.innerHTML = sorted.map(d => {
     const ci  = centrosInfo[d.centro] ?? {};
     const pub = !ci.privado;
     const niv = d.nivel.toLowerCase();
@@ -163,7 +175,7 @@ function renderCentros(data) {
     byCentro[d.centro].ciclos.push({ nivel: d.nivel, ciclo: d.ciclo, familia: d.familia });
   });
 
-  grid.innerHTML = Object.entries(byCentro).map(([nombre, { info, ciclos }]) => {
+  grid.innerHTML = Object.entries(byCentro).sort(([a],[b]) => a.localeCompare(b,'es')).map(([nombre, { info, ciclos }]) => {
     const pub     = info.privado !== true;
     const tieneGS = ciclos.some(c => c.nivel === 'GS');
     const tieneGM = ciclos.some(c => c.nivel === 'GM');
