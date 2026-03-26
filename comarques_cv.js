@@ -1,0 +1,31 @@
+// comarques_cv.js — Comarques de les 3 províncies
+export const comarques = [
+  { nom: 'El Baix Maestrat', provincia: 'Castellon', municipis: ['ALCALÀ DE XIVERT', 'BENICARLÓ', 'PENÍSCOLA', 'SANT MATEU', 'VINARÒS'] },
+  { nom: 'El Baix Vinalopó', provincia: 'Alicante', municipis: ['CREVILLENT', 'ELX', 'SANTA POLA'] },
+  { nom: 'El Camp de Morvedre', provincia: 'Valencia', municipis: ['SAGUNT'] },
+  { nom: 'El Camp de Túria', provincia: 'Valencia', municipis: ['LLÍRIA'] },
+  { nom: 'El Comtat', provincia: 'Alicante', municipis: ['COCENTAINA', 'MURO DE ALCOY'] },
+  { nom: 'El Vinalopó Mitjà', provincia: 'Alicante', municipis: ['ASPE', 'ELDA', 'MONFORTE DEL CID', 'MONÒVER', 'NOVELDA', 'PETRER', 'PINÓS (EL)'] },
+  { nom: 'Els Ports', provincia: 'Castellon', municipis: ['MORELLA', 'VILAFRANCA'] },
+  { nom: 'L\'Alacantí', provincia: 'Alicante', municipis: ['ALACANT', 'CAMPELLO (EL)', 'MUTXAMEL', 'SANT JOAN D\'ALACANT', 'SANT VICENT DEL RASPEIG', 'XIXONA'] },
+  { nom: 'L\'Alcalatén', provincia: 'Castellon', municipis: ['ALCORA (L\')'] },
+  { nom: 'L\'Alcoià', provincia: 'Alicante', municipis: ['ALCOI'] },
+  { nom: 'L\'Alt Maestrat', provincia: 'Castellon', municipis: ['BENASSAL'] },
+  { nom: 'L\'Alt Millars', provincia: 'Castellon', municipis: ['MONTANEJOS'] },
+  { nom: 'L\'Alt Palància', provincia: 'Castellon', municipis: ['JÉRICA - VIVER', 'SEGORBE'] },
+  { nom: 'L\'Alt Vinalopó', provincia: 'Alicante', municipis: ['BANYERES DE MARIOLA', 'BIAR', 'CASTALLA', 'IBI', 'ONIL', 'SAX', 'VILLENA'] },
+  { nom: 'L\'Horta', provincia: 'Valencia', municipis: ['ALDAIA', 'BURJASSOT', 'CATARROJA', 'MANISES', 'MISLATA', 'MONCADA', 'PATERNA', 'QUART DE POBLET', 'TORRENT', 'VALÈNCIA'] },
+  { nom: 'La Costera', provincia: 'Valencia', municipis: ['XÀTIVA'] },
+  { nom: 'La Marina Alta', provincia: 'Alicante', municipis: ['BENISSA', 'CALP', 'DÉNIA', 'GATA DE GORGOS', 'ONDARA', 'PEDREGUER', 'PEGO', 'TEULADA', 'XÀBIA'] },
+  { nom: 'La Marina Baixa', provincia: 'Alicante', municipis: ['ALFÀS DEL PI (L\')', 'ALTEA', 'BENIDORM', 'CALLOSA D\'EN SARRIÀ', 'NUCIA (LA)', 'VILA JOIOSA (LA)'] },
+  { nom: 'La Plana Alta', provincia: 'Castellon', municipis: ['ALMASSORA', 'BENICÀSSIM', 'CASTELLÓ DE LA PLANA', 'ORPESA', 'TORREBLANCA', 'VALL D\'ALBA'] },
+  { nom: 'La Plana Baixa', provincia: 'Castellon', municipis: ['ALMENARA', 'BETXÍ', 'BORRIANA', 'NULES', 'ONDA', 'VALL D\'UIXÓ (LA)', 'VILA-REAL'] },
+  { nom: 'La Plana d\'Utiel-Requena', provincia: 'Valencia', municipis: ['REQUENA'] },
+  { nom: 'La Ribera Alta', provincia: 'Valencia', municipis: ['ALZIRA'] },
+  { nom: 'La Ribera Baixa', provincia: 'Valencia', municipis: ['CULLERA', 'SUECA'] },
+  { nom: 'La Safor', provincia: 'Valencia', municipis: ['GANDIA'] },
+  { nom: 'La Vall d\'Albaida', provincia: 'Valencia', municipis: ['ONTINYENT'] },
+  { nom: 'La Vega Baixa', provincia: 'Alicante', municipis: ['ALBATERA', 'ALMORADÍ', 'BENEJÚZAR', 'BIGASTRO', 'CALLOSA DE SEGURA', 'CATRAL', 'DOLORES', 'GUARDAMAR DEL SEGURA', 'MONTESINOS (LOS)', 'ORIHUELA', 'PILAR DE LA HORADADA', 'ROJALES', 'TORREVIEJA'] },
+];
+
+// Total comarques: 26
