@@ -1,0 +1,8 @@
+# Forzar MIME type correcto para módulos ES (type="module")
+AddType application/javascript .js
+AddType text/css .css
+
+# Caché razonable para assets estáticos
+<FilesMatch "\.(js|css)$">
+  Header set Cache-Control "max-age=3600"
+</FilesMatch>

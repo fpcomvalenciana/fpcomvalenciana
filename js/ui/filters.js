@@ -24,6 +24,19 @@ export const fTipologia = () => document.getElementById('f-tipologia');
 
 export const familias = [...new Set(datosEnriquecidos.map(d => d.familia))].sort();
 
+// ── Base filtrada per província/comarca/municipi/nivell ────────
+// Funció compartida per getFiltered i actualizarFiltrosCascada
+// per evitar duplicació de lògica de filtratge geogràfic.
+function getBaseFiltrada(prov, com, mun, niv) {
+  return datosEnriquecidos.filter(d => {
+    if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
+    if (com  && d.comarca   !== com)  return false;
+    if (mun  && d.municipio !== mun)  return false;
+    if (niv  && d.nivel     !== niv)  return false;
+    return true;
+  });
+}
+
 // ── Filtrado ──────────────────────────────────────────────────
 export function getFiltered() {
   const prov = safe(fProvincia()?.value);
@@ -35,14 +48,9 @@ export function getFiltered() {
   const cen  = safe(fCentro()?.value);
   const tip  = safe(fTipologia()?.value);
 
-  // Sin provincia ni comarca: vacío
   if (!prov && !com) return [];
 
-  return datosEnriquecidos.filter(d => {
-    if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
-    if (com  && d.comarca   !== com)  return false;
-    if (mun  && d.municipio !== mun)  return false;
-    if (niv  && d.nivel     !== niv)  return false;
+  return getBaseFiltrada(prov, com, mun, niv).filter(d => {
     if (fam  && d.familia   !== fam)  return false;
     if (cic  && d.ciclo     !== cic)  return false;
     if (cen  && d.centro    !== cen)  return false;
@@ -121,13 +129,7 @@ export function actualizarFiltrosCascada() {
 
   // Base filtrada
   const munActual2 = safe(fMunicipio()?.value);
-  const baseFam = datosEnriquecidos.filter(d => {
-    if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
-    if (comActual && d.comarca   !== comActual)  return false;
-    if (munActual2 && d.municipio !== munActual2) return false;
-    if (niv && d.nivel !== niv) return false;
-    return true;
-  });
+  const baseFam = getBaseFiltrada(prov, comActual, munActual2, niv);
   const baseCic = baseFam.filter(d => !fam || d.familia === fam);
 
   // Poblar familias
@@ -157,11 +159,7 @@ export function actualizarFiltrosCascada() {
 
   // Poblar centros
   const centros = [...new Set(
-    datosEnriquecidos.filter(d => {
-      if (prov && comarcaMunicipis[d.comarca]?.provincia !== prov) return false;
-      if (comActual && d.comarca !== comActual) return false;
-      return true;
-    }).map(d => d.centro)
+    getBaseFiltrada(prov, comActual, '', '').map(d => d.centro)
   )].sort();
   const fCen = fCentro();
   if (fCen) {
