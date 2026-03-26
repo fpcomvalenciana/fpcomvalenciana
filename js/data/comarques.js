@@ -1,104 +1,31 @@
-// Mapa comarca → municipios (según Diputació d'Alacant)
-// Nombres en castellano y valenciano según el BOE
+// comarques_cv.js — Comarques de les 3 províncies
+export const comarques = [
+  { nom: 'El Baix Maestrat', provincia: 'Castellon', municipis: ['ALCALÀ DE XIVERT', 'BENICARLÓ', 'PENÍSCOLA', 'SANT MATEU', 'VINARÒS'] },
+  { nom: 'El Baix Vinalopó', provincia: 'Alicante', municipis: ['CREVILLENT', 'ELX', 'SANTA POLA'] },
+  { nom: 'El Camp de Morvedre', provincia: 'Valencia', municipis: ['SAGUNT'] },
+  { nom: 'El Camp de Túria', provincia: 'Valencia', municipis: ['LLÍRIA'] },
+  { nom: 'El Comtat', provincia: 'Alicante', municipis: ['COCENTAINA', 'MURO DE ALCOY'] },
+  { nom: 'El Vinalopó Mitjà', provincia: 'Alicante', municipis: ['ASPE', 'ELDA', 'MONFORTE DEL CID', 'MONÒVER', 'NOVELDA', 'PETRER', 'PINÓS (EL)'] },
+  { nom: 'Els Ports', provincia: 'Castellon', municipis: ['MORELLA', 'VILAFRANCA'] },
+  { nom: 'L\'Alacantí', provincia: 'Alicante', municipis: ['ALACANT', 'CAMPELLO (EL)', 'MUTXAMEL', 'SANT JOAN D\'ALACANT', 'SANT VICENT DEL RASPEIG', 'XIXONA'] },
+  { nom: 'L\'Alcalatén', provincia: 'Castellon', municipis: ['ALCORA (L\')'] },
+  { nom: 'L\'Alcoià', provincia: 'Alicante', municipis: ['ALCOI'] },
+  { nom: 'L\'Alt Maestrat', provincia: 'Castellon', municipis: ['BENASSAL'] },
+  { nom: 'L\'Alt Millars', provincia: 'Castellon', municipis: ['MONTANEJOS'] },
+  { nom: 'L\'Alt Palància', provincia: 'Castellon', municipis: ['JÉRICA - VIVER', 'SEGORBE'] },
+  { nom: 'L\'Alt Vinalopó', provincia: 'Alicante', municipis: ['BANYERES DE MARIOLA', 'BIAR', 'CASTALLA', 'IBI', 'ONIL', 'SAX', 'VILLENA'] },
+  { nom: 'L\'Horta', provincia: 'Valencia', municipis: ['ALDAIA', 'BURJASSOT', 'CATARROJA', 'MANISES', 'MISLATA', 'MONCADA', 'PATERNA', 'QUART DE POBLET', 'TORRENT', 'VALÈNCIA'] },
+  { nom: 'La Costera', provincia: 'Valencia', municipis: ['XÀTIVA'] },
+  { nom: 'La Marina Alta', provincia: 'Alicante', municipis: ['BENISSA', 'CALP', 'DÉNIA', 'GATA DE GORGOS', 'ONDARA', 'PEDREGUER', 'PEGO', 'TEULADA', 'XÀBIA'] },
+  { nom: 'La Marina Baixa', provincia: 'Alicante', municipis: ['ALFÀS DEL PI (L\')', 'ALTEA', 'BENIDORM', 'CALLOSA D\'EN SARRIÀ', 'NUCIA (LA)', 'VILA JOIOSA (LA)'] },
+  { nom: 'La Plana Alta', provincia: 'Castellon', municipis: ['ALMASSORA', 'BENICÀSSIM', 'CASTELLÓ DE LA PLANA', 'ORPESA', 'TORREBLANCA', 'VALL D\'ALBA'] },
+  { nom: 'La Plana Baixa', provincia: 'Castellon', municipis: ['ALMENARA', 'BETXÍ', 'BORRIANA', 'NULES', 'ONDA', 'VALL D\'UIXÓ (LA)', 'VILA-REAL'] },
+  { nom: 'La Plana d\'Utiel-Requena', provincia: 'Valencia', municipis: ['REQUENA'] },
+  { nom: 'La Ribera Alta', provincia: 'Valencia', municipis: ['ALZIRA'] },
+  { nom: 'La Ribera Baixa', provincia: 'Valencia', municipis: ['CULLERA', 'SUECA'] },
+  { nom: 'La Safor', provincia: 'Valencia', municipis: ['GANDIA'] },
+  { nom: 'La Vall d\'Albaida', provincia: 'Valencia', municipis: ['ONTINYENT'] },
+  { nom: 'La Vega Baixa', provincia: 'Alicante', municipis: ['ALBATERA', 'ALMORADÍ', 'BENEJÚZAR', 'BIGASTRO', 'CALLOSA DE SEGURA', 'CATRAL', 'DOLORES', 'GUARDAMAR DEL SEGURA', 'MONTESINOS (LOS)', 'ORIHUELA', 'PILAR DE LA HORADADA', 'ROJALES', 'TORREVIEJA'] },
+];
 
-export const provincies = {
-  Alicante:  { es: "Alicante / Alacant",   val: "Alacant / Alicante" },
-  Castellon: { es: "Castellón / Castelló",  val: "Castelló / Castellón" },
-  Valencia:  { es: "Valencia / València",   val: "València / Valencia" },
-};
-
-export const comarcaMunicipis = {
-  // ── ALICANTE / ALACANT ──────────────────────────────────────
-  "L'Alacantí": {
-    es: "L'Alacantí", val: "L'Alacantí", provincia: "Alicante",
-    municipis: {
-      "Alicante":                 { val: "Alacant/Alicante" },
-      "San Vicente del Raspeig":  { val: "Sant Vicent del Raspeig" },
-      "Mutxamel":                 { val: "Mutxamel" },
-      "Sant Joan d'Alacant":      { val: "Sant Joan d'Alacant" },
-      "El Campello":              { val: "El Campello" },
-    }
-  },
-  "L'Alcoià": {
-    es: "L'Alcoià", val: "L'Alcoià", provincia: "Alicante",
-    municipis: {
-      "Alcoy/Alcoi": { val: "Alcoi/Alcoy" },
-    }
-  },
-  "El Comtat": {
-    es: "El Comtat", val: "El Comtat", provincia: "Alicante",
-    municipis: {
-      "Cocentaina":                   { val: "Cocentaina" },
-      "Muro de Alcoy/Muro d'Alcoi":   { val: "Muro d'Alcoi" },
-    }
-  },
-  "La Marina Alta": {
-    es: "La Marina Alta", val: "La Marina Alta", provincia: "Alicante",
-    municipis: {
-      "Dénia":           { val: "Dénia" },
-      "Xàbia/Jávea":    { val: "Xàbia" },
-      "Pedreguer":       { val: "Pedreguer" },
-      "Benissa":         { val: "Benissa" },
-      "Calp/Calpe":     { val: "Calp" },
-      "Ondara":          { val: "Ondara" },
-    }
-  },
-  "La Marina Baixa": {
-    es: "La Marina Baixa", val: "La Marina Baixa", provincia: "Alicante",
-    municipis: {
-      "Benidorm":                       { val: "Benidorm" },
-      "Altea":                          { val: "Altea" },
-      "l'Alfàs del Pi":                { val: "l'Alfàs del Pi" },
-      "La Vila Joiosa/Villajoyosa":     { val: "La Vila Joiosa" },
-      "La Nucía":                       { val: "La Nucía" },
-      "Callosa d'En Sarrià":           { val: "Callosa d'En Sarrià" },
-    }
-  },
-  "L'Alt Vinalopó": {
-    es: "L'Alt Vinalopó", val: "L'Alt Vinalopó", provincia: "Alicante",
-    municipis: {
-      "Villena": { val: "Villena" },
-    }
-  },
-  "El Vinalopó Mitjà": {
-    es: "El Vinalopó Mitjà", val: "El Vinalopó Mitjà", provincia: "Alicante",
-    municipis: {
-      "Elda":    { val: "Elda" },
-      "Novelda": { val: "Novelda" },
-    }
-  },
-  "El Baix Vinalopó": {
-    es: "El Baix Vinalopó", val: "El Baix Vinalopó", provincia: "Alicante",
-    municipis: {
-      "Elx/Elche": { val: "Elx" },
-    }
-  },
-  "La Vega Baixa": {
-    es: "La Vega Baixa / El Baix Segura", val: "La Vega Baixa / El Baix Segura", provincia: "Alicante",
-    municipis: {
-      "Orihuela":        { val: "Oriola" },
-      "Torrevieja":      { val: "Torrevieja" },
-      "Callosa de Segura": { val: "Callosa de Segura" },
-      "Almoradí":        { val: "Almoradí" },
-      "Jacarilla":       { val: "Jacarilla" },
-      "Bigastro":        { val: "Bigastro" },
-    }
-  },
-
-  // ── CASTELLÓN / CASTELLÓ (de moment buit) ──────────────────
-  // (s'afegirà quan es tinguen dades)
-
-  // ── VALENCIA / VALÈNCIA (de moment buit) ───────────────────
-  // (s'afegirà quan es tinguen dades)
-};
-
-// Llista ordenada de comarcas
-export const comarques = Object.keys(comarcaMunicipis);
-
-// Mapa municipio → comarca
-export const municipiComarca = {};
-for (const [comarca, data] of Object.entries(comarcaMunicipis)) {
-  for (const mun of Object.keys(data.municipis)) {
-    municipiComarca[mun] = comarca;
-  }
-}
+// Total comarques: 26

@@ -1,7 +1,7 @@
 import { getFiltered }    from './filters.js';
 import { updateInfoPanel } from './render-info.js';
 import { initMap, renderMap } from './render-map.js';
-import { t, tFam, tCicle, currentLang } from './language.js';
+import { t, tFam, tCicle, tSalidas, currentLang } from './language.js';
 import { centrosInfo }    from '../data/centres.js';
 import { familiaEmoji, datosEnriquecidos } from '../data/cycles.js';
 import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio, fProvincia } from './filters.js';
@@ -141,6 +141,7 @@ function renderFamilias(data) {
       <div class="fam-tag">${safe(familiaEmoji[d.familia])} ${tFam(d.familia)}</div>
       ${d.centro === 'EASDA' ? '<div class="easda-badge">' + t('easdaBadge') + '</div>' : ''}
       <div style="font-size:.85rem;font-weight:600;margin-top:.4rem">${tCicle(d.ciclo)}</div>
+      ${tSalidas(d.ciclo) ? '<div class="card-salidas"><span class="salidas-label">' + t('salidas') + '</span> ' + tSalidas(d.ciclo) + '</div>' : ''}
       ${ci.web ? '<a href="' + safe(ci.web) + '" target="_blank" class="card-web">' + t('webCentre') + '</a>' : ''}
       <div class="card-contacto">
         ${ci.tel ? '📞 ' + safe(ci.tel) : ''}
