@@ -87,3 +87,12 @@
   .lang-btn { background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.25); border-radius:8px; color:white; font-family:'Unbounded',sans-serif; font-size:.65rem; font-weight:700; padding:.35rem .75rem; cursor:pointer; transition:all .2s; letter-spacing:.08em; }
   .lang-btn.active { background:var(--pub-color); border-color:var(--pub-color); }
   .lang-btn:hover:not(.active) { background:rgba(255,255,255,.2); }
+
+/* ── Format unificat de targeta v4 ──────────────────────────── */
+.card-ciclo-nombre { font-size:.85rem; font-weight:600; margin-top:.35rem; }
+.card-contacto-block { margin-top:.6rem; display:flex; flex-direction:column; gap:.2rem; font-size:.75rem; }
+.card-contacto-block .card-web  { display:inline; margin-top:0; }
+.card-contacto-block .card-tel  { color:var(--muted); }
+.card-contacto-block .card-email { color:var(--muted); text-decoration:none; }
+.card-contacto-block .card-email:hover { text-decoration:underline; }
+.card-salidas { font-size:.75rem; color:var(--muted); margin-top:.4rem; line-height:1.5; }

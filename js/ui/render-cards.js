@@ -106,8 +106,8 @@ function actualizarEstadoVacio(hayFiltro) {
     if (elLblF)  elLblF.textContent  = t('statFamiliesPro') || 'familias';
     const prompt = document.getElementById('comarca-prompt-text');
     if (prompt) prompt.textContent = currentLang === 'val'
-      ? "Selecciona una província, un nivell o una família professional per descobrir el teu futur a la FP"
-      : "Selecciona una provincia, un nivel o una familia profesional para descubrir tu futuro en la FP";
+      ? "Selecciona una província o una família professional per descobrir el teu futur a la FP"
+      : "Selecciona una provincia o una familia profesional para descubrir tu futuro en la FP";
   } else {
     if (emptyEl)  emptyEl.style.display  = 'none';
     if (tabsEl)   tabsEl.style.display   = '';
@@ -130,94 +130,72 @@ function renderCards(data) {
   else                               renderMap(data);
 }
 
+// ── Format unificat de targeta ───────────────────────────────
+function cardHtml(nombre, municipio, pub, niv, familia, ciclo, dir, web, tel, email) {
+  const salidas = tSalidas(ciclo);
+  const nivOrd = { fpb: 'FPB', gm: 'GM', gs: 'GS' };
+  return `<div class="card ${pub ? 'pub' : 'priv'} ${niv}">
+    <div class="card-centro">${safe(nombre)}</div>
+    <div class="card-municipio">📍 ${safe(municipio)}</div>
+    <div class="fam-tag">${safe(familiaEmoji[familia])} ${tFam(familia)}</div>
+    <div class="card-ciclo-nombre">${tCicle(ciclo)}</div>
+    ${salidas ? '<div class="card-salidas">' + t('salidas') + ' ' + salidas + '</div>' : ''}
+    <div class="card-contacto-block">
+      ${web ? '<a href="' + safe(web) + '" target="_blank" class="card-web">🌐 ' + t('webCentre') + '</a>' : ''}
+      ${tel ? '<span class="card-tel">📞 ' + safe(tel) + '</span>' : ''}
+      ${email ? '<a href="mailto:' + safe(email) + '" class="card-email">✉️ ' + safe(email) + '</a>' : ''}
+    </div>
+  </div>`;
+}
+
 // ── Vista familias ────────────────────────────────────────────
+// Ordre: nom centre → nivel (FPB→GM→GS) → nom cicle
 function renderFamilias(data) {
   const grid = document.getElementById('cards-grid');
   if (!grid) return;
   if (!data.length) { grid.innerHTML = emptyState(); return; }
 
-  // Ordenació alfabètica per centre
-  const sorted = [...data].sort((a, b) => a.centro.localeCompare(b.centro, 'es'));
+  const nivelOrd = { FPB: 0, GM: 1, GS: 2 };
+  const sorted = [...data].sort((a, b) =>
+    a.centro.localeCompare(b.centro, 'es') ||
+    (nivelOrd[a.nivel] - nivelOrd[b.nivel]) ||
+    a.ciclo.localeCompare(b.ciclo, 'es')
+  );
 
   grid.innerHTML = sorted.map(d => {
     const ci  = centrosInfo[d.centro] ?? {};
     const pub = !ci.privado;
     const niv = d.nivel.toLowerCase();
-    return `<div class="card ${pub ? 'pub' : 'priv'} ${niv}">
-      <div class="card-top">
-        <span class="card-nivel ${niv}">${d.nivel === 'FPB' ? t('fpbLabel') : d.nivel === 'GM' ? t('gmLabel') : t('gsLabel')}</span>
-        ${!pub ? '<span class="card-privado-tag">' + t('privat') + '</span>' : ''}
-      </div>
-      <div class="card-centro">${safe(d.centro)}</div>
-      <div class="card-municipio">📍 ${safe(d.municipio)}</div>
-      <div class="fam-tag">${safe(familiaEmoji[d.familia])} ${tFam(d.familia)}</div>
-      ${d.centro === 'EASDA' ? '<div class="easda-badge">' + t('easdaBadge') + '</div>' : ''}
-      <div style="font-size:.85rem;font-weight:600;margin-top:.4rem">${tCicle(d.ciclo)}</div>
-      ${tSalidas(d.ciclo) ? '<div class="card-salidas"><span class="salidas-label">' + t('salidas') + '</span> ' + tSalidas(d.ciclo) + '</div>' : ''}
-      ${ci.web ? '<a href="' + safe(ci.web) + '" target="_blank" class="card-web">' + t('webCentre') + '</a>' : ''}
-      <div class="card-contacto">
-        ${ci.tel ? '📞 ' + safe(ci.tel) : ''}
-        ${ci.email ? '<br>✉️ <a href="mailto:' + safe(ci.email) + '">' + safe(ci.email) + '</a>' : ''}
-      </div>
-    </div>`;
+    return cardHtml(d.centro, d.municipio, pub, niv, d.familia, d.ciclo,
+                    ci.dir, ci.web, ci.tel, ci.email);
   }).join('');
 }
 
 // ── Vista centros ─────────────────────────────────────────────
+// Ordre: municipi → nom centre. Una targeta per cicle (format unificat).
 function renderCentros(data) {
   const grid = document.getElementById('cards-grid');
   if (!grid) return;
   if (!data.length) { grid.innerHTML = emptyState(); return; }
 
-  const byCentro = {};
-  data.forEach(d => {
-    if (!byCentro[d.centro]) byCentro[d.centro] = { info: centrosInfo[d.centro] ?? {}, ciclos: [] };
-    byCentro[d.centro].ciclos.push({ nivel: d.nivel, ciclo: d.ciclo, familia: d.familia });
+  const nivelOrd = { FPB: 0, GM: 1, GS: 2 };
+  const sorted = [...data].sort((a, b) => {
+    const ciA = centrosInfo[a.centro] ?? {};
+    const ciB = centrosInfo[b.centro] ?? {};
+    return (ciA.municipio ?? '').localeCompare(ciB.municipio ?? '', 'es') ||
+           a.centro.localeCompare(b.centro, 'es') ||
+           (nivelOrd[a.nivel] - nivelOrd[b.nivel]) ||
+           a.ciclo.localeCompare(b.ciclo, 'es');
   });
 
-  grid.innerHTML = Object.entries(byCentro).sort(([a],[b]) => a.localeCompare(b,'es')).map(([nombre, { info, ciclos }]) => {
-    const pub     = info.privado !== true;
-    const tieneGS = ciclos.some(c => c.nivel === 'GS');
-    const tieneGM = ciclos.some(c => c.nivel === 'GM');
-    const niv     = tieneGS ? 'gs' : tieneGM ? 'gm' : 'fpb';
-    const esEASDA = nombre === 'EASDA';
-    const nivelOrd = { FPB: 0, GM: 1, GS: 2 };
-    ciclos.sort((a, b) =>
-      (nivelOrd[a.nivel] - nivelOrd[b.nivel]) || a.ciclo.localeCompare(b.ciclo, 'es')
-    );
-    const ciclosHtml = ciclos.map(c => `
-      <div class="ciclo-item"
-           data-familia="${c.familia.replace(/"/g,'&quot;')}"
-           data-ciclo="${c.ciclo.replace(/"/g,'&quot;')}"
-           data-nivel="${c.nivel}">
-        <span class="ciclo-badge ${c.nivel.toLowerCase()}">${c.nivel}</span>
-        <span>${tCicle(c.ciclo)}</span>
-        <span class="ciclo-arrow">→</span>
-      </div>`).join('');
-    return `<div class="card ${pub ? 'pub' : 'priv'} ${niv}">
-      <div class="card-top">
-        <span style="font-size:.65rem;font-weight:600;color:var(--muted)">${safe(info.municipio)}</span>
-        ${!pub ? '<span class="card-privado-tag">' + t('privat') + '</span>' : ''}
-      </div>
-      <div class="card-centro">${safe(nombre)}</div>
-      <div class="card-municipio">📍 ${safe(info.dir)}</div>
-      ${esEASDA ? '<div class="easda-badge" style="margin-bottom:.5rem">' + t('easdaBadge') + '</div>' : ''}
-      <div class="ciclos-list">${ciclosHtml}</div>
-      ${info.web ? '<a href="' + safe(info.web) + '" target="_blank" class="card-web" style="margin-top:.7rem">' + t('webCentre') + '</a>' : ''}
-      <div class="card-contacto">
-        ${info.tel ? '📞 ' + safe(info.tel) : ''}
-        ${info.email ? '<br>✉️ <a href="mailto:' + safe(info.email) + '">' + safe(info.email) + '</a>' : ''}
-      </div>
-    </div>`;
+  grid.innerHTML = sorted.map(d => {
+    const ci  = centrosInfo[d.centro] ?? {};
+    const pub = !ci.privado;
+    const niv = d.nivel.toLowerCase();
+    return cardHtml(d.centro, ci.municipio || d.municipio, pub, niv, d.familia, d.ciclo,
+                    ci.dir, ci.web, ci.tel, ci.email);
   }).join('');
-
-  grid.addEventListener('click', e => {
-    const item = e.target.closest('.ciclo-item[data-familia]');
-    if (!item) return;
-    document.dispatchEvent(new CustomEvent('fp:goto-ciclo', {
-      detail: { familia: item.dataset.familia, ciclo: item.dataset.ciclo, nivel: item.dataset.nivel }
-    }));
-  });
+}
 }
 
 // ── Tabs ──────────────────────────────────────────────────────

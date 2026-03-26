@@ -167,10 +167,10 @@ export function resetFilters() {
     .forEach(id => { const el = document.getElementById(id); if (el) { el.value = ''; el.disabled = false; } });
 
   // Tornar a deshabilitar municipio i ciclo (que comencen desactivats)
-  const munEl = fMunicipio();
-  const cicEl = fCiclo();
-  if (munEl) munEl.disabled = true;
-  if (cicEl) cicEl.disabled = true;
+  const munEl2 = fMunicipio();
+  const cicEl2 = fCiclo();
+  if (munEl2) munEl2.disabled = true;
+  if (cicEl2) cicEl2.disabled = true;
 
   // Netejar el label de resultats
   const lbl = document.getElementById('result-label');
@@ -188,11 +188,10 @@ export function initFilters() {
   function updateSelectStates() {
     const prov = fProvincia()?.value ?? '';
     const fam  = fFamilia()?.value  ?? '';
-    const niv  = fNivel()?.value    ?? '';
     const munEl = fMunicipio();
     const cicEl = fCiclo();
     if (munEl) munEl.disabled = !prov;
-    if (cicEl) cicEl.disabled = !prov && !fam && !niv;
+    if (cicEl) cicEl.disabled = !prov && !fam;
   }
 
   // Província → tab centros
@@ -215,16 +214,7 @@ export function initFilters() {
     requestUpdate();
   });
 
-  // Nivell → tab centros (si no hi ha família seleccionada)
-  on('f-nivel', () => {
-    actualizarFiltrosCascada();
-    updateSelectStates();
-    if (fNivel()?.value && !fFamilia()?.value) {
-      document.dispatchEvent(new CustomEvent('fp:switch-tab', { detail: 'centros' }));
-    }
-    requestUpdate();
-  });
-
+  on('f-nivel',     () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-comarca',   () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-municipio', () => { actualizarFiltrosCascada(); requestUpdate(); });
   on('f-ciclo',     () => { updateSelectStates(); requestUpdate(); });
