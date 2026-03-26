@@ -97,8 +97,8 @@ function actualizarEstadoVacio(hayFiltro) {
     if (elLblF)  elLblF.textContent  = t('statFamiliesPro') || 'familias';
     const prompt = document.getElementById('comarca-prompt-text');
     if (prompt) prompt.textContent = currentLang === 'val'
-      ? "Selecciona una comarca per veure l'oferta d'FP"
-      : "Selecciona una comarca para ver la oferta de FP";
+      ? "Selecciona una província o una comarca per veure l'oferta d'FP"
+      : "Selecciona una provincia o una comarca para ver la oferta de FP";
   } else {
     if (emptyEl)  emptyEl.style.display  = 'none';
     if (tabsEl)   tabsEl.style.display   = '';

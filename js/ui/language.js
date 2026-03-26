@@ -42,7 +42,7 @@ export function applyUILang() {
   if (sl.length >= 4) {
     sl[0].textContent = l.statCentres ?? '';
     sl[1].textContent = l.statCicles ?? '';
-    sl[2].textContent = l.statMunicipis ?? '';
+    sl[2].textContent = l.statComarques ?? '';
     sl[3].textContent = l.statNivells ?? '';
   }
 
