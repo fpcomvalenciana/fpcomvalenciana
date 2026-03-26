@@ -1,10 +1,16 @@
-import { datosEnriquecidos } from '../data/cycles.js';
+import { datos } from '../data/cycles.js';
+import { centrosInfo } from '../data/centres.js';
 import { comarcaMunicipis, comarques, provincies } from '../data/comarques.js';
 import { t, tFam, tCicle, currentLang } from './language.js';
 
 function requestUpdate() { document.dispatchEvent(new CustomEvent('fp:update')); }
 
 const safe = (txt) => txt ?? '';
+
+// Enriquim datos amb info de centre (municipio, comarca, lat, lng, privado)
+export const datosEnriquecidos = datos.map(d => ({
+  ...d, ...(centrosInfo[d.centro] ?? { municipio:'', comarca:'', provincia:'', lat:39.5, lng:-0.5, privado:false })
+}));
 
 // Selectores DOM
 export const fProvincia = () => document.getElementById('f-provincia');

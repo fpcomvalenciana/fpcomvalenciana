@@ -1,5 +1,4 @@
-import { uiEs, uiVal, famNomVal, cicleNomVal, cicleInfoVal } from '../data/translations.js';
-import { cicloInfo } from '../data/cycles.js';
+import { uiEs, uiVal, famNomVal, cicleNomVal, cicleInfoVal, cicloInfoEs } from '../data/translations.js';
 
 // Usamos eventos para evitar dependencias circulares
 function requestUpdate() { document.dispatchEvent(new CustomEvent('fp:update')); }
@@ -19,9 +18,9 @@ export function tCicle(c) {
 export function tSalidas(c) {
   if (currentLang === 'val') {
     const nomVal = cicleNomVal[c] ?? c;
-    return cicleInfoVal[nomVal]?.salidas ?? cicloInfo[c]?.salidas ?? '';
+    return cicleInfoVal[nomVal]?.salidas ?? cicloInfoEs[c]?.salidas ?? '';
   }
-  return cicloInfo[c]?.salidas ?? '';
+  return cicloInfoEs[c]?.salidas ?? '';
 }
 
 export function setLang(lang) {

@@ -1,9 +1,9 @@
-import { getFiltered }    from './filters.js';
+import { getFiltered, datosEnriquecidos }    from './filters.js';
 import { updateInfoPanel } from './render-info.js';
 import { initMap, renderMap } from './render-map.js';
 import { t, tFam, tCicle, tSalidas, currentLang } from './language.js';
 import { centrosInfo }    from '../data/centres.js';
-import { familiaEmoji, datosEnriquecidos } from '../data/cycles.js';
+import { familiaEmoji } from '../data/cycles.js';
 import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio, fProvincia } from './filters.js';
 import { comarcaMunicipis } from '../data/comarques.js';
 
