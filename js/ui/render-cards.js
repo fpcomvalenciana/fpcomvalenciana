@@ -1,10 +1,10 @@
-import { getFiltered, datosEnriquecidos, fComarca, fProvincia, fFamilia } from './filters.js';
+import { getFiltered, datosEnriquecidos, actualizarFiltrosCascada,
+         fComarca, fProvincia, fFamilia, fNivel, fCiclo, fMunicipio } from './filters.js';
 import { updateInfoPanel } from './render-info.js';
 import { initMap, renderMap } from './render-map.js';
 import { t, tFam, tCicle, tSalidas, currentLang } from './language.js';
 import { centrosInfo }    from '../data/centres.js';
 import { familiaEmoji } from '../data/cycles.js';
-import { actualizarFiltrosCascada, fNivel, fFamilia, fCiclo, fComarca, fMunicipio, fProvincia } from './filters.js';
 import { comarcaMunicipis } from '../data/comarques.js';
 
 const safe = (txt) => txt ?? '';
