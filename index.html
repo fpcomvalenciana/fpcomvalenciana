@@ -93,8 +93,17 @@
         </select>
       </div>
     </div>
-    <!-- FILA 2: Familia profesional · Ciclo concreto -->
+    <!-- FILA 2: Nivel · Familia profesional · Ciclo concreto -->
     <div class="filters-grid filters-row-2">
+      <div class="filter-group" id="fg-nivel">
+        <label id="lbl-nivel">Nivel</label>
+        <select id="f-nivel" disabled>
+          <option value="">Todos los niveles</option>
+          <option value="FPB">FP Básica (FPB)</option>
+          <option value="GM">Grado Medio (GM)</option>
+          <option value="GS">Grado Superior (GS)</option>
+        </select>
+      </div>
       <div class="filter-group" id="fg-familia">
         <label id="lbl-familia">Familia profesional</label>
         <select id="f-familia"></select>
@@ -104,17 +113,8 @@
         <select id="f-ciclo" disabled><option value="">Todos los ciclos</option></select>
       </div>
     </div>
-    <!-- Nivel, Centre i Tipologia: ocultes, actives per filtrar -->
+    <!-- Centre i Tipologia: ocultes, actives per filtrar -->
     <div style="display:none">
-      <div class="filter-group" id="fg-nivel">
-        <label id="lbl-nivel">Nivel</label>
-        <select id="f-nivel">
-          <option value="">Todos los niveles</option>
-          <option value="FPB">FP Básica (FPB)</option>
-          <option value="GM">Grado Medio (GM)</option>
-          <option value="GS">Grado Superior (GS)</option>
-        </select>
-      </div>
       <div class="filter-group" id="fg-centro">
         <label id="lbl-centro">Centro educativo</label>
         <select id="f-centro"></select>

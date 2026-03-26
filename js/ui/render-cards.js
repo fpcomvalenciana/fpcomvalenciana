@@ -196,18 +196,12 @@ function renderCentros(data) {
                     ci.dir, ci.web, ci.tel, ci.email);
   }).join('');
 }
-}
 
 // ── Tabs ──────────────────────────────────────────────────────
 export function setTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn?.classList.add('active');
-
-  const modoCentros = tab === 'centros';
-  document.getElementById('fg-familia').style.display   = modoCentros ? 'none' : '';
-  document.getElementById('fg-ciclo').style.display     = modoCentros ? 'none' : '';
-  document.getElementById('fg-centro').style.display    = modoCentros ? '' : 'none';
   document.getElementById('fg-tipologia').style.display = modoCentros ? '' : 'none';
 
   const mapC   = document.getElementById('map-container');

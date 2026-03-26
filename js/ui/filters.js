@@ -166,10 +166,12 @@ export function resetFilters() {
   ['f-provincia','f-comarca','f-municipio','f-nivel','f-familia','f-ciclo','f-centro','f-tipologia']
     .forEach(id => { const el = document.getElementById(id); if (el) { el.value = ''; el.disabled = false; } });
 
-  // Tornar a deshabilitar municipio i ciclo (que comencen desactivats)
+  // Tornar a deshabilitar municipio, nivel i ciclo (que comencen desactivats)
   const munEl2 = fMunicipio();
+  const nivEl2 = fNivel();
   const cicEl2 = fCiclo();
   if (munEl2) munEl2.disabled = true;
+  if (nivEl2) nivEl2.disabled = true;
   if (cicEl2) cicEl2.disabled = true;
 
   // Netejar el label de resultats
@@ -189,8 +191,10 @@ export function initFilters() {
     const prov = fProvincia()?.value ?? '';
     const fam  = fFamilia()?.value  ?? '';
     const munEl = fMunicipio();
+    const nivEl = fNivel();
     const cicEl = fCiclo();
     if (munEl) munEl.disabled = !prov;
+    if (nivEl) nivEl.disabled = !prov && !fam;
     if (cicEl) cicEl.disabled = !prov && !fam;
   }
 
