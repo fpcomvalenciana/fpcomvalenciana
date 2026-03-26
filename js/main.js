@@ -3,7 +3,7 @@
 // ============================================================
 import { applyUILang, setLang, currentLang }           from './ui/language.js';
 import { initFilters, actualizarFiltrosCascada,
-         fNivel, fFamilia, fCiclo, fComarca, poblarComarcas } from './ui/filters.js';
+         fNivel, fFamilia, fCiclo, fComarca } from './ui/filters.js';
 import { updateView, setTab }                          from './ui/render-cards.js';
 import { initInfoPanel }                               from './ui/render-info.js';
 

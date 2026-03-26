@@ -56,9 +56,9 @@
       <button class="lang-btn" id="btn-val">VAL</button>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot pub"></div><span id="leg-pub">Centre públic</span></div>
-      <div class="legend-item"><div class="legend-dot priv"></div><span id="leg-priv">Centre privat/concertat</span></div>
-      <div class="legend-item legend-item--note" id="leg-note">· Més suau = FPB &nbsp;· Més intens = GM &nbsp;· Més sòlid = GS</div>
+      <div class="legend-item"><div class="legend-dot pub"></div><span id="leg-pub">Centro público</span></div>
+      <div class="legend-item"><div class="legend-dot priv"></div><span id="leg-priv">Centro privado/concertado</span></div>
+      <div class="legend-item legend-item--note" id="leg-note">· Más suave = FPB &nbsp;· Más intenso = GM &nbsp;· Más sólido = GS</div>
     </div>
   </div>
 </header>
@@ -75,7 +75,7 @@
         <option value="">Selecciona una comarca…</option>
       </select>
     </div>
-    <!-- FILA 1: Provincia · Municipis · Família professional -->
+    <!-- FILA 1: Provincia · Municipio -->
     <div class="filters-grid filters-row-1">
       <div class="filter-group filter-group--provincia">
         <label id="lbl-provincia">Provincia</label>
@@ -88,16 +88,12 @@
       </div>
       <div class="filter-group" id="fg-municipio">
         <label id="lbl-municipio">Municipio</label>
-        <select id="f-municipio">
+        <select id="f-municipio" disabled>
           <option value="">Todos los municipios</option>
         </select>
       </div>
-      <div class="filter-group" id="fg-familia">
-        <label id="lbl-familia">Familia profesional</label>
-        <select id="f-familia"></select>
-      </div>
     </div>
-    <!-- FILA 2: Nivel · Cicle · Centre · Tipologia -->
+    <!-- FILA 2: Nivel · Familia profesional · Ciclo concreto -->
     <div class="filters-grid filters-row-2">
       <div class="filter-group">
         <label id="lbl-nivel">Nivel</label>
@@ -108,10 +104,17 @@
           <option value="GS">Grado Superior (GS)</option>
         </select>
       </div>
+      <div class="filter-group" id="fg-familia">
+        <label id="lbl-familia">Familia profesional</label>
+        <select id="f-familia"></select>
+      </div>
       <div class="filter-group" id="fg-ciclo">
         <label id="lbl-ciclo">Ciclo concreto</label>
-        <select id="f-ciclo"><option value="">Todos los ciclos</option></select>
+        <select id="f-ciclo" disabled><option value="">Todos los ciclos</option></select>
       </div>
+    </div>
+    <!-- Centre i Tipologia: ocultes, actives per filtrar -->
+    <div style="display:none">
       <div class="filter-group" id="fg-centro">
         <label id="lbl-centro">Centro educativo</label>
         <select id="f-centro"></select>
@@ -125,6 +128,7 @@
         </select>
       </div>
     </div>
+    <!-- FILA 3: Borrar filtros -->
     <div class="filters-actions">
       <button class="btn-reset" id="btn-reset">↺ Borrar filtros</button>
       <span class="result-count" id="result-label"></span>
@@ -141,7 +145,7 @@
   <!-- ESTADO VACÍO (sin comarca seleccionada) -->
   <div id="comarca-empty-state">
     <div class="comarca-prompt-icon">🗺️</div>
-    <p id="comarca-prompt-text">Selecciona una provincia o una comarca para ver la oferta de FP</p>
+    <p id="comarca-prompt-text">Selecciona una provincia, un nivel o una familia profesional para descubrir tu futuro en la FP</p>
     <div class="comarca-stats">
       <div class="comarca-stat"><span id="total-centros">296</span><small id="lbl-total-centros">centros</small></div>
       <div class="comarca-stat"><span id="total-ciclos">1868</span><small id="lbl-total-ciclos">ciclos</small></div>
@@ -188,7 +192,7 @@
   <!-- SEO: texto indexable por Google -->
   <section id="seo-text" style="max-width:1100px;margin:2rem auto 0;font-size:0.95rem;line-height:1.6;color:#64748b;padding:0 .5rem;">
     <h2 id="seo-h2" style="font-size:1.1rem;font-weight:600;margin-bottom:.5rem;">Formación Profesional en la Comunitat Valenciana</h2>
-    <p id="seo-p1">En esta web puedes consultar toda la oferta de Formación Profesional en la Comunitat Valenciana, sus provincias (Alicante, Castellón y València) y comarcas, incluyendo ciclos de FP Básica, Grado Medio y Grado Superior en diferentes familias profesionales.</p>
+    <p id="seo-p1">En esta web puedes consultar toda la oferta de Formación Profesional en la Comunitat Valenciana, sus provincias (Alicante, Castellón y València) y municipios, incluyendo ciclos de FP Básica, Grado Medio y Grado Superior en diferentes familias profesionales.</p>
     <p id="seo-p2" style="margin-top:.5rem;">Encuentra centros, compara ciclos formativos y descubre las salidas profesionales de cada opción para tomar la mejor decisión académica.</p>
   </section>
 
@@ -200,29 +204,29 @@
   <div style="max-width:1100px;margin:auto;">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:1.8rem;">
       <div>
-        <div id="footer-lbl-legal" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Avís Legal</div>
+        <div id="footer-lbl-legal" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Aviso Legal</div>
         <p id="footer-txt-legal" style="font-size:.78rem;line-height:1.7;">
-          Email: fpcomvalenciana@gmail.com<br>
-          Este lloc ofereix informació orientativa sobre la Formació Professional a la Comunitat Valenciana. La informació pot variar; consulta sempre les fonts oficials.
+          Responsable: Emili Peiró<br>Email: fpcomvalenciana@gmail.com<br>
+          Este sitio ofrece información orientativa sobre Formación Profesional en la Comunitat Valenciana. La información puede variar; consulta siempre las fuentes oficiales.
         </p>
       </div>
       <div>
-        <div id="footer-lbl-priv" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Privacitat</div>
+        <div id="footer-lbl-priv" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Privacidad</div>
         <p id="footer-txt-priv" style="font-size:.78rem;line-height:1.7;">
-          No es recullen dades personals directament. Es poden usar cookies de tercers per millorar l'experiència i mostrar anuncis.<br>
-          Contacte: fpcomvalenciana@gmail.com
+          No se recogen datos personales directamente. Se pueden usar cookies de terceros para mejorar la experiencia y mostrar anuncios.<br>
+          Contacto: fpcomvalenciana@gmail.com
         </p>
       </div>
       <div>
         <div id="footer-lbl-cook" style="font-family:Unbounded,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#f97316;margin-bottom:.6rem;">Política de Cookies</div>
         <p id="footer-txt-cook" style="font-size:.78rem;line-height:1.7;">
-          Este lloc utilitza cookies per millorar l'experiència i, si escau, mostrar anuncis. Pots configurar el teu navegador per rebutjar-les.<br>
-          <a href="https://policies.google.com/privacy" target="_blank" style="color:#fbbf24;text-decoration:none;" id="footer-lnk-cook">Més informació →</a>
+          Este sitio utiliza cookies para mejorar la experiencia y, en su caso, mostrar anuncios. Puedes configurar tu navegador para rechazarlas.<br>
+          <a href="https://policies.google.com/privacy" target="_blank" style="color:#fbbf24;text-decoration:none;" id="footer-lnk-cook">Más información →</a>
         </p>
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.2rem;display:flex;justify-content:center;align-items:center;">
-      <span id="footer-copy" style="font-size:.72rem;color:rgba(255,255,255,0.45);">© 2026 FP Comunitat Valenciana · Informació orientativa, sense caràcter oficial</span>
+      <span id="footer-copy" style="font-size:.72rem;color:rgba(255,255,255,0.45);">© 2026 FP Comunitat Valenciana · Información orientativa, sin carácter oficial</span>
     </div>
   </div>
 </footer>

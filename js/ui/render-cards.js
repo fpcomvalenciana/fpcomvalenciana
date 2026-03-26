@@ -106,8 +106,8 @@ function actualizarEstadoVacio(hayFiltro) {
     if (elLblF)  elLblF.textContent  = t('statFamiliesPro') || 'familias';
     const prompt = document.getElementById('comarca-prompt-text');
     if (prompt) prompt.textContent = currentLang === 'val'
-      ? "Selecciona una província o una família professional per veure l'oferta d'FP"
-      : "Selecciona una provincia o una familia profesional para ver la oferta de FP";
+      ? "Selecciona una província, un nivell o una família professional per descobrir el teu futur a la FP"
+      : "Selecciona una provincia, un nivel o una familia profesional para descubrir tu futuro en la FP";
   } else {
     if (emptyEl)  emptyEl.style.display  = 'none';
     if (tabsEl)   tabsEl.style.display   = '';

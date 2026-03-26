@@ -46,12 +46,12 @@ export function applyUILang() {
     sl[3].textContent = l.statNivells ?? '';
   }
 
-  const li = document.querySelectorAll('.legend-item');
-  if (li.length >= 3) {
-    li[0].innerHTML = '<div class="legend-dot pub"></div> ' + (l.legPub ?? '');
-    li[1].innerHTML = '<div class="legend-dot priv"></div> ' + (l.legPriv ?? '');
-    li[2].innerHTML = l.legColors ?? '';
-  }
+  const legPubEl  = document.getElementById('leg-pub');
+  const legPrivEl = document.getElementById('leg-priv');
+  const legNoteEl = document.getElementById('leg-note');
+  if (legPubEl)  legPubEl.textContent  = l.legPub  ?? '';
+  if (legPrivEl) legPrivEl.textContent = l.legPriv ?? '';
+  if (legNoteEl) legNoteEl.innerHTML   = l.legColors ?? '';
 
   const ns = document.getElementById('f-nivel');
   if (ns?.options.length >= 4) {
@@ -68,8 +68,8 @@ export function applyUILang() {
 
   const tb = document.querySelectorAll('.tab-btn');
   if (tb.length >= 3) {
-    tb[0].textContent = l.tabFamilies ?? '';
-    tb[1].textContent = l.tabCentres ?? '';
+    tb[0].textContent = l.tabCentres ?? '';
+    tb[1].textContent = l.tabFamilies ?? '';
     tb[2].textContent = l.tabMapa ?? '';
   }
 
