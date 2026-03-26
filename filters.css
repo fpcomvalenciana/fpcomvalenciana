@@ -1,0 +1,6 @@
+@media(max-width:600px){
+  .filters-grid { grid-template-columns:1fr; }
+  .cards-grid { grid-template-columns:1fr; }
+  .stats-cards { grid-template-columns:repeat(2,1fr); }
+  .header-logo-wrap img { height:72px; }
+}

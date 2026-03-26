@@ -1,0 +1,82 @@
+/* ── FILTERS ─────────────────────────── */
+.filters-section { background:var(--card-bg); border-radius:20px; padding:1.4rem; margin-bottom:1.2rem; border:1px solid var(--border); box-shadow:0 2px 18px rgba(0,0,0,.06); }
+.filters-title { font-family:'Unbounded',sans-serif; font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:.9rem; }
+.filters-grid { display:grid; gap:.8rem; }
+.filters-row-1,
+.filters-row-2 { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; }
+.filters-row-2 { margin-top:.6rem; }
+.filter-group label { display:block; font-size:.72rem; font-weight:500; color:var(--muted); margin-bottom:.35rem; text-transform:uppercase; letter-spacing:.07em; }
+.filter-group select {
+  width:100%; padding:.6rem .9rem; border:2px solid var(--border); border-radius:10px;
+  background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:.88rem;
+  cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right .8rem center; transition:border-color .2s;
+}
+.filter-group select:focus { outline:none; border-color:var(--pub-color); }
+.filters-actions { display:flex; gap:.8rem; margin-top:.9rem; align-items:center; flex-wrap:wrap; }
+.btn-reset { background:none; border:2px solid var(--border); border-radius:10px; padding:.55rem 1.1rem; font-family:'DM Sans',sans-serif; font-size:.82rem; color:var(--muted); cursor:pointer; transition:all .2s; }
+.btn-reset:hover { border-color:var(--pub-color); color:var(--pub-color); }
+.result-count { font-size:.82rem; color:var(--muted); margin-left:auto; }
+.result-count strong { color:var(--text); font-weight:600; }
+
+/* ── COMARCA FILTER ────────────────────────────────────────── */
+.filter-group--comarca select {
+  border: 2px solid var(--accent-yellow);
+  font-weight: 600;
+}
+
+/* ── COMARCA EMPTY STATE ───────────────────────────────────── */
+#comarca-empty-state {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  color: var(--muted);
+}
+.comarca-prompt-icon {
+  font-size: 3rem;
+  margin-bottom: .75rem;
+}
+#comarca-prompt-text {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+.comarca-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.comarca-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.comarca-stat span {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.comarca-stat small {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+
+/* ── PROVINCIA FILTER ──────────────────────────────────────── */
+.filter-group--provincia select {
+  border: 2px solid var(--border);
+  font-weight: 500;
+}
+.filter-group--comarca select {
+  border: 2px solid var(--accent-yellow);
+  font-weight: 600;
+}
+
+/* Responsive: 1 columna en móvil */
+@media (max-width: 640px) {
+  .filters-row-1,
+  .filters-row-2 { grid-template-columns: 1fr; }
+}
