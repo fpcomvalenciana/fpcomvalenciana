@@ -15,12 +15,22 @@ export function tFam(f) {
 export function tCicle(c) {
   return currentLang === 'val' ? (cicleNomVal[c] ?? c) : c;
 }
+
+// Lookup de salidas case-insensitive (cicloInfoEs té claus en minúscula)
+function getSalidasEs(c) {
+  if (!c) return '';
+  if (cicloInfoEs[c]?.salidas) return cicloInfoEs[c].salidas;
+  const cLower = c.toLowerCase();
+  const found = Object.keys(cicloInfoEs).find(k => k.toLowerCase() === cLower);
+  return found ? (cicloInfoEs[found]?.salidas ?? '') : '';
+}
+
 export function tSalidas(c) {
   if (currentLang === 'val') {
     const nomVal = cicleNomVal[c] ?? c;
-    return cicleInfoVal[nomVal]?.salidas ?? cicloInfoEs[c]?.salidas ?? '';
+    return cicleInfoVal[nomVal]?.salidas ?? getSalidasEs(c);
   }
-  return cicloInfoEs[c]?.salidas ?? '';
+  return getSalidasEs(c);
 }
 
 export function setLang(lang) {
