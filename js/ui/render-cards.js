@@ -202,7 +202,7 @@ export function setTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn?.classList.add('active');
-  document.getElementById('fg-tipologia').style.display = modoCentros ? '' : 'none';
+  document.getElementById('fg-tipologia').style.display = (tab === 'centros') ? '' : 'none';
 
   const mapC   = document.getElementById('map-container');
   const cardsC = document.getElementById('cards-container');
