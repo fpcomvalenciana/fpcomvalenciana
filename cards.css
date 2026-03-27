@@ -1,4 +1,0 @@
-/* ── TABS ────────────────────────────── */
-.tabs { display:flex; gap:.4rem; margin-bottom:1.2rem; flex-wrap:wrap; }
-.tab-btn { padding:.55rem 1.1rem; border-radius:100px; border:2px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:.83rem; font-weight:500; cursor:pointer; transition:all .2s; color:var(--muted); }
-.tab-btn.active { background:var(--dark); border-color:var(--dark); color:white; }
