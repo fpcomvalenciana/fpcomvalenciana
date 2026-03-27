@@ -1,81 +1,75 @@
-# FP Comunitat Valenciana
+import { t, tCicle } from './language.js';
+import { centrosInfo } from '../data/centres.js';
 
-Web d'orientació educativa sobre l'oferta de **Formació Professional** a la Comunitat Valenciana per al curs 2025-26.
+const safe = (txt) => txt ?? '';
 
-🌐 **[fpcomvalenciana.es](https://fpcomvalenciana.es)**
+let map, markersLayer;
 
----
+export function initMap() {
+  if (map) return;
+  if (typeof L === 'undefined') { console.warn('Leaflet no cargado'); return; }
+  map = L.map('map').setView([38.385, -0.490], 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+  markersLayer = L.layerGroup().addTo(map);
+}
 
-## Contingut
+export function renderMap(data) {
+  if (typeof L === 'undefined' || !map) return;
+  markersLayer.clearLayers();
 
-- **296 centres** educatius (públics i privats/concertats)
-- **1.868 cicles** formatius
-- **26 famílies** professionals
-- **27 comarques** de les tres províncies (Alacant, Castelló, València)
+  const byCentro = {};
+  data.forEach(d => {
+    if (!byCentro[d.centro]) byCentro[d.centro] = { ...centrosInfo[d.centro], ciclos: [] };
+    byCentro[d.centro].ciclos.push({ nivel: d.nivel, ciclo: d.ciclo, familia: d.familia });
+  });
 
-Cobreix els tres nivells: **FP Bàsica · Grau Mitjà · Grau Superior**
+  const bounds = [];
+  Object.entries(byCentro).forEach(([nombre, info]) => {
+    if (!info.lat) return;
+    bounds.push([info.lat, info.lng]);
 
-Font de dades: [Oferta FP 2025-26 — GVA](https://ceice.gva.es/documents/388109149/392295572/Oferta2526.pdf) (23/05/2025)
+    const color = info.privado ? '#6366f1' : '#f97316';
+    const icon  = L.divIcon({
+      html: `<div style="background:${color};width:14px;height:14px;border-radius:50%;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>`,
+      className: '', iconSize: [14, 14], iconAnchor: [7, 7]
+    });
 
----
+    const ciclosHtml = info.ciclos.map(c =>
+      `<div class="popup-item"
+            data-familia="${c.familia}" data-ciclo="${c.ciclo}" data-nivel="${c.nivel}">
+        <span class="popup-nivel ${c.nivel.toLowerCase()}">${
+          c.nivel === 'FPB' ? t('fpbLabel') : c.nivel === 'GM' ? t('gmLabel') : t('gsLabel')
+        }</span>
+        ${tCicle(c.ciclo)}
+        <span style="float:right;color:#aaa">→</span>
+      </div>`
+    ).join('');
 
-## Característiques
+    const popup = L.popup({ maxWidth: 280 }).setContent(
+      `<div class="popup-title">${safe(nombre)}</div>
+       <div style="font-size:.7rem;color:#999;margin-bottom:.4rem">
+         ${safe(info.municipio)} ${info.privado ? '· Privado' : ''}
+       </div>
+       ${ciclosHtml}`
+    );
 
-- Filtratge per província, comarca, municipi, nivell, família professional i cicle
-- Dos modes de visualització: per famílies i per centres
-- Mapa interactiu (OpenStreetMap / Leaflet)
-- Progressions FPB→GM→GS per família professional
-- Bilingüe: castellà / valencià
-- Web estàtica, sense servidor ni base de dades
+    const marker = L.marker([info.lat, info.lng], { icon }).bindPopup(popup).addTo(markersLayer);
+    marker.on('popupopen', () => {
+      document.querySelectorAll('.popup-item').forEach(el => {
+        el.addEventListener('click', () => {
+          marker.closePopup();
+          // Usar eventos para evitar imports circulares
+          document.dispatchEvent(new CustomEvent('fp:goto-ciclo', {
+            detail: { familia: el.dataset.familia, ciclo: el.dataset.ciclo, nivel: el.dataset.nivel }
+          }));
+        });
+      });
+    });
+  });
 
----
-
-## Estructura del projecte
-
-```
-fp-alacanti/
-├── index.html
-├── css/
-│   ├── main.css
-│   ├── header.css
-│   ├── filters.css
-│   ├── cards.css
-│   ├── info-panel.css
-│   ├── map.css
-│   ├── tabs.css
-│   └── responsive.css
-├── js/
-│   ├── main.js
-│   ├── data/
-│   │   ├── centres.js       ← 296 centres amb coords GPS i contacte
-│   │   ├── cycles.js        ← 1.868 cicles + cicloInfo + familiaDescripcion
-│   │   ├── comarques.js     ← 27 comarques i municipis (es/val)
-│   │   ├── transitions.js   ← progressions FPB→GM→GS
-│   │   └── translations.js  ← traduccions UI + cicles al valencià
-│   └── ui/
-│       ├── filters.js       ← lògica de filtratge en cascada
-│       ├── render-cards.js  ← targetes per famílies i per centres
-│       ├── render-info.js   ← panell d'informació del cicle
-│       ├── render-map.js    ← mapa Leaflet
-│       └── language.js      ← canvi d'idioma i traduccions UI
-└── img/
-```
-
----
-
-## Tecnologia
-
-- HTML + CSS + JavaScript vanilla (ES Modules)
-- [Leaflet](https://leafletjs.com/) per al mapa
-- Sense frameworks, sense build step, sense dependències npm
-
----
-
-## Responsable
-
-**Emili Peiró**
-✉️ fpcomvalenciana@gmail.com
-
----
-
-*Informació orientativa, sense caràcter oficial. Consulta sempre les fonts oficials de la GVA.*
+  if (bounds.length === 1)      map.setView(bounds[0], 14, { animate: true });
+  else if (bounds.length > 1)   map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14, animate: true });
+  else                          map.setView([38.385, -0.490], 11, { animate: true });
+}
